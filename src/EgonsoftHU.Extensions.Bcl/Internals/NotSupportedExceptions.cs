@@ -1,13 +1,15 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace EgonsoftHU.Extensions.Bcl.Exceptions
+namespace EgonsoftHU.Extensions.Bcl.Internals
 {
     internal static class NotSupportedExceptions
     {
-        internal static class MessageTemplates
+        [SuppressMessage(SonarQube.Category, SonarQube.S3218)]
+        private static class MessageTemplates
         {
             internal const string NotSupportedEnumTypeCode = "Not supported enumeration type code.";
 
@@ -21,8 +23,8 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new NotSupportedException(MessageTemplates.NotSupportedEnumTypeCode);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName<TEnum>();
-            ex.Data[DataKeys.TypeCode] = typeCode;
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName<TEnum>();
+            ex.Data[ExceptionDataKeys.TypeCode] = typeCode;
 
             return ex;
         }
@@ -32,7 +34,7 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new NotSupportedException(MessageTemplates.NotSupportedEnumUnderlyingType);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName<TUnderlying>();
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName<TUnderlying>();
 
             return ex;
         }
@@ -41,7 +43,7 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new NotSupportedException(MessageTemplates.SeekNotSupported);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName(streamType);
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName(streamType);
 
             return ex;
         }

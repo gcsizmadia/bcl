@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations.Internals;
-using EgonsoftHU.Extensions.Bcl.Exceptions;
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
 {

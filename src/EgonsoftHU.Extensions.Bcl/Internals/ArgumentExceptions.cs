@@ -1,17 +1,27 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+#if NET8_0_OR_GREATER
+using System.Text;
+#endif
 
-namespace EgonsoftHU.Extensions.Bcl.Exceptions
+namespace EgonsoftHU.Extensions.Bcl.Internals
 {
     internal static class ArgumentExceptions
     {
-        internal static class MessageTemplates
+        [SuppressMessage(SonarQube.Category, SonarQube.S3218)]
+        private static class MessageTemplates
         {
+#if NET8_0_OR_GREATER
+            internal static readonly CompositeFormat ArgumentMustBeOfType = CompositeFormat.Parse("Object must be of type: '{0}'");
+#else
             internal const string ArgumentMustBeOfType = "Object must be of type: '{0}'";
+#endif
 
             internal const string CollectionIsReadOnly = "The collection is read-only.";
 
@@ -37,15 +47,16 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
             var ex =
                 new ArgumentException(
                     String.Format(
+                        CultureInfo.CurrentCulture,
                         MessageTemplates.ArgumentMustBeOfType,
                         TypeHelper.GetTypeName(requiredType)
                     ),
                     paramName
                 );
 
-            ex.Data[DataKeys.RequiredType] = TypeHelper.GetTypeName(requiredType);
+            ex.Data[ExceptionDataKeys.RequiredType] = TypeHelper.GetTypeName(requiredType);
 
-            ex.Data[DataKeys.ActualType] =
+            ex.Data[ExceptionDataKeys.ActualType] =
                 paramValue is null
                     ? Type.Missing.ToString()
                     : TypeHelper.GetTypeName(paramValue.GetType());
@@ -69,9 +80,9 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new ArgumentException(MessageTemplates.EnumMemberNotFound, paramName);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName<TEnum>();
-            ex.Data[DataKeys.OriginalValue] = paramValue;
-            ex.Data[DataKeys.InvalidValues] = invalidValues;
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName<TEnum>();
+            ex.Data[ExceptionDataKeys.OriginalValue] = paramValue;
+            ex.Data[ExceptionDataKeys.InvalidValues] = invalidValues;
 
             return ex;
         }
@@ -80,8 +91,8 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new ArgumentException(MessageTemplates.PropertyNotFound, nameof(propertyName));
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName(sourceType);
-            ex.Data[DataKeys.PropertyName] = propertyName;
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName(sourceType);
+            ex.Data[ExceptionDataKeys.PropertyName] = propertyName;
 
             return ex;
         }

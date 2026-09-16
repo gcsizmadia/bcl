@@ -4,6 +4,7 @@
 using System;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations;
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl
 {

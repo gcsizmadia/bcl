@@ -1,14 +1,16 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace EgonsoftHU.Extensions.Bcl.Exceptions
+namespace EgonsoftHU.Extensions.Bcl.Internals
 {
     internal static class InvalidOperationExceptions
     {
-        internal static class MessageTemplates
+        [SuppressMessage(SonarQube.Category, SonarQube.S3218)]
+        private static class MessageTemplates
         {
             internal const string CreateEnumFlagsInstanceFailed =
                 "Create an instance of a type that implements IEnumFlags<TUnderlying> interface failed.";
@@ -16,14 +18,8 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
             internal const string CreateEnumInfoInstanceFailed =
                 "Create an instance of the EnumInfo<TEnum> type failed.";
 
-            internal const string CreateEnumValueConverterFailed =
-                "Create an instance of a type that implements IEnumValueConverter<TEnum, TUnderlying> interface failed.";
-
             internal const string EnumTypeWithNoFlagsAttribute =
                 "No System.FlagsAttribute is applied to the current enumeration type.";
-
-            internal const string NoFlagsResolverForType =
-                "Could not find an IEnumFlags<TUnderlyingType> implementation for the specified underlying type.";
 
             internal const string PropertyValueNotSet =
                 "The property value is not set.";
@@ -34,8 +30,8 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new InvalidOperationException(MessageTemplates.CreateEnumFlagsInstanceFailed);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName(concreteType);
-            ex.Data[DataKeys.EnumUnderlyingType] = TypeHelper.GetTypeName<TUnderlying>();
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName(concreteType);
+            ex.Data[ExceptionDataKeys.EnumUnderlyingType] = TypeHelper.GetTypeName<TUnderlying>();
 
             return ex;
         }
@@ -45,9 +41,9 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new InvalidOperationException(MessageTemplates.CreateEnumInfoInstanceFailed);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName(concreteType);
-            ex.Data[DataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
-            ex.Data[DataKeys.OriginalValue] = value;
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName(concreteType);
+            ex.Data[ExceptionDataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
+            ex.Data[ExceptionDataKeys.OriginalValue] = value;
 
             return ex;
         }
@@ -58,10 +54,10 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new InvalidOperationException(MessageTemplates.CreateEnumInfoInstanceFailed);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName(concreteType);
-            ex.Data[DataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
-            ex.Data[DataKeys.EnumUnderlyingType] = TypeHelper.GetTypeName<TUnderlying>();
-            ex.Data[DataKeys.OriginalValue] = value;
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName(concreteType);
+            ex.Data[ExceptionDataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
+            ex.Data[ExceptionDataKeys.EnumUnderlyingType] = TypeHelper.GetTypeName<TUnderlying>();
+            ex.Data[ExceptionDataKeys.OriginalValue] = value;
 
             return ex;
         }
@@ -72,9 +68,9 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new InvalidOperationException(MessageTemplates.CreateEnumFlagsInstanceFailed);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName(concreteType);
-            ex.Data[DataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
-            ex.Data[DataKeys.EnumUnderlyingType] = TypeHelper.GetTypeName<TUnderlying>();
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName(concreteType);
+            ex.Data[ExceptionDataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
+            ex.Data[ExceptionDataKeys.EnumUnderlyingType] = TypeHelper.GetTypeName<TUnderlying>();
 
             return ex;
         }
@@ -84,7 +80,7 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new InvalidOperationException(MessageTemplates.EnumTypeWithNoFlagsAttribute);
 
-            ex.Data[DataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
+            ex.Data[ExceptionDataKeys.EnumType] = TypeHelper.GetTypeName<TEnum>();
 
             return ex;
         }
@@ -93,8 +89,8 @@ namespace EgonsoftHU.Extensions.Bcl.Exceptions
         {
             var ex = new InvalidOperationException(MessageTemplates.PropertyValueNotSet);
 
-            ex.Data[DataKeys.Type] = TypeHelper.GetTypeName<TProperty>();
-            ex.Data[DataKeys.PropertyName] = propertyName;
+            ex.Data[ExceptionDataKeys.Type] = TypeHelper.GetTypeName<TProperty>();
+            ex.Data[ExceptionDataKeys.PropertyName] = propertyName;
 
             return ex;
         }

@@ -1,10 +1,11 @@
 ﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System;
-using EgonsoftHU.Extensions.Bcl.Exceptions;
+
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl
 {

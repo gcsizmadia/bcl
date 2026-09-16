@@ -8,7 +8,7 @@ using System.Threading;
 #endif
 using System.Threading.Tasks;
 
-using EgonsoftHU.Extensions.Bcl.Exceptions;
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl
 {
