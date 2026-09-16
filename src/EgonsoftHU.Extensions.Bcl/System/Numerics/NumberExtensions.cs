@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations;
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl
 {
@@ -797,7 +798,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<sbyte>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -815,7 +816,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<short>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -833,7 +834,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<int>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -851,7 +852,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<long>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -869,7 +870,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<byte>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -887,7 +888,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<ushort>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -905,7 +906,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<uint>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -923,7 +924,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<ulong>.IsInRange(value, lowerBound, upperBound, options);
         }
 
 #if NET5_0_OR_GREATER
@@ -942,7 +943,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<Half>.IsInRange(value, lowerBound, upperBound, options);
         }
 #endif
 
@@ -961,7 +962,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<float>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -979,7 +980,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
+            return InternalComparer<double>.IsInRange(value, lowerBound, upperBound, options);
         }
 
         /// <summary>
@@ -997,31 +998,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return value.IsInRangeCore(lowerBound, upperBound, options);
-        }
-
-        private static bool IsInRangeCore<T>(
-            this T value,
-            T lowerBound,
-            T upperBound,
-            IntervalBoundsOptions options = default
-        )
-            where T : struct, IComparable<T>
-        {
-            Comparer<T> comparer = Comparer<T>.Default;
-
-            return
-                (
-                    options.HasFlag(IntervalBoundsOptions.LeftOpen)
-                        ? comparer.Compare(value, lowerBound) > 0
-                        : comparer.Compare(value, lowerBound) >= 0
-                )
-                &&
-                (
-                    options.HasFlag(IntervalBoundsOptions.RightOpen)
-                        ? comparer.Compare(value, lowerBound) < 0
-                        : comparer.Compare(value, lowerBound) <= 0
-                );
+            return InternalComparer<decimal>.IsInRange(value, lowerBound, upperBound, options);
         }
         #endregion
     }

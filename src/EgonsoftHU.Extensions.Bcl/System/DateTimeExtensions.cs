@@ -62,18 +62,7 @@ namespace EgonsoftHU.Extensions.Bcl
             IntervalBoundsOptions options = default
         )
         {
-            return
-                (
-                    options.HasFlag(IntervalBoundsOptions.LeftOpen)
-                        ? value > lowerBound
-                        : value >= lowerBound
-                )
-                &&
-                (
-                    options.HasFlag(IntervalBoundsOptions.RightOpen)
-                        ? value < upperBound
-                        : value <= upperBound
-                );
+            return InternalComparer<DateTime>.IsInRange(value, lowerBound, upperBound, options);
         }
     }
 }
