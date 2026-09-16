@@ -1,4 +1,4 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
@@ -10,7 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace EgonsoftHU.Extensions.Bcl.UnitTests
 {

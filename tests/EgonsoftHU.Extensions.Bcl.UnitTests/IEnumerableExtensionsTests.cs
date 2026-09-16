@@ -1,4 +1,4 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
@@ -12,7 +12,6 @@ using EgonsoftHU.Extensions.Bcl.UnitTests.Stubs;
 using FluentAssertions;
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace EgonsoftHU.Extensions.Bcl.UnitTests
 {
@@ -117,9 +116,15 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
             ItemsChangeResult<int> result = existingItems.DetectChanges(incomingItems, item => item);
 
             // Assert
+#if NET8_0_OR_GREATER
+            result.ItemsToAdd.Should().BeEquivalentTo([3]);
+            result.ItemsToUpdate.Should().BeEquivalentTo([2]);
+            result.ItemsToRemove.Should().BeEquivalentTo([1]);
+#else
             result.ItemsToAdd.Should().BeEquivalentTo(3.AsSingleElementSequence());
             result.ItemsToUpdate.Should().BeEquivalentTo(2.AsSingleElementSequence());
             result.ItemsToRemove.Should().BeEquivalentTo(1.AsSingleElementSequence());
+#endif
         }
 
         [Fact]

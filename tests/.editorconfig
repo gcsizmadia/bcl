@@ -1,0 +1,10 @@
+﻿[*.cs]
+# ------------------------------------------------------------------------------------------------------------------------------------------
+# Miscellaneous rules
+# ------------------------------------------------------------------------------------------------------------------------------------------
+
+# Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = none
+
+# Remove unnecessary import
+dotnet_diagnostic.IDE0005.severity = none

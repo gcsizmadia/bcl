@@ -1,4 +1,4 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace EgonsoftHU.Extensions.Bcl.UnitTests
 {
@@ -128,6 +127,34 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
 
             // Assert
             sut.Should().ThrowExactly<ArgumentNullException>().WithParameterName(nameof(type));
+        }
+
+        [Fact]
+        public void GetName_NotNull()
+        {
+            // Arrange
+            Type type = typeof(string);
+            string expectedTypeName = "System.String";
+
+            // Act
+            string actualTypeName = type.GetName();
+
+            // Assert
+            actualTypeName.Should().Be(expectedTypeName);
+        }
+
+        [Fact]
+        public void GetName_Null()
+        {
+            // Arrange
+            Type? type = null;
+            string expectedTypeName = String.Empty;
+
+            // Act
+            string actualTypeName = type!.GetName();
+
+            // Assert
+            actualTypeName.Should().Be(expectedTypeName);
         }
     }
 }

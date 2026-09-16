@@ -1,4 +1,4 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
@@ -16,7 +16,6 @@ using EgonsoftHU.Extensions.Bcl.Enumerations;
 using FluentAssertions;
 
 using Xunit;
-using Xunit.Abstractions;
 
 using static EgonsoftHU.Extensions.Bcl.UnitTests.Stubs.Enums;
 
@@ -762,9 +761,9 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
                 IEnumerable<EnumInfo<WithFlagsWithZero>> enumerable = item.As<IEnumerable<EnumInfo<WithFlagsWithZero>>>();
 
                 enumerable.Should().HaveCount(expectedCount);
-                enumerable.Should().HaveElementAt(0, WithFlagsWithZero.One!);
-                enumerable.Should().HaveElementAt(1, WithFlagsWithZero.Two!);
-                enumerable.Should().HaveElementAt(2, WithFlagsWithZero.Three!);
+                enumerable.Should().HaveElementAt(0, WithFlagsWithZero.One);
+                enumerable.Should().HaveElementAt(1, WithFlagsWithZero.Two);
+                enumerable.Should().HaveElementAt(2, WithFlagsWithZero.Three);
             }
         }
     }

@@ -1,7 +1,10 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
+
+using EgonsoftHU.Extensions.Bcl.Enumerations;
+
 #if NETFRAMEWORK
 using System.Diagnostics.CodeAnalysis;
 #endif
@@ -9,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 
 using Xunit;
-using Xunit.Abstractions;
 
 namespace EgonsoftHU.Extensions.Bcl.UnitTests
 {
@@ -901,6 +903,33 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
             Decimal.MaxValue.IsPositive().Should().BeTrue();
         }
 
+        #endregion
+
+        #region IsInRange
+        [Fact]
+        public void IsInRange_Int32()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+            4.IsInRange(4, 6).Should().BeTrue();
+            5.IsInRange(4, 6).Should().BeTrue();
+            6.IsInRange(4, 6).Should().BeTrue();
+
+            4.IsInRange(4, 6, IntervalBoundsOptions.LeftOpen).Should().BeFalse();
+            5.IsInRange(4, 6, IntervalBoundsOptions.LeftOpen).Should().BeTrue();
+            6.IsInRange(4, 6, IntervalBoundsOptions.LeftOpen).Should().BeTrue();
+
+            4.IsInRange(4, 6, IntervalBoundsOptions.RightOpen).Should().BeTrue();
+            5.IsInRange(4, 6, IntervalBoundsOptions.RightOpen).Should().BeTrue();
+            6.IsInRange(4, 6, IntervalBoundsOptions.RightOpen).Should().BeFalse();
+
+            4.IsInRange(4, 6, IntervalBoundsOptions.Open).Should().BeFalse();
+            5.IsInRange(4, 6, IntervalBoundsOptions.Open).Should().BeTrue();
+            6.IsInRange(4, 6, IntervalBoundsOptions.Open).Should().BeFalse();
+        }
         #endregion
     }
 }

@@ -1,28 +1,37 @@
-﻿// Copyright © 2022-2024 Gabor Csizmadia
+﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
+using Serilog.Sinks.XUnit3;
 
-using Xunit.Abstractions;
+using Xunit;
+using Xunit.Sdk;
 
 namespace EgonsoftHU.Extensions.Bcl.UnitTests
 {
 #if NETFRAMEWORK
     [ExcludeFromCodeCoverage]
 #endif
-    public class LoggingFixture<T> : IDisposable
+    public abstract class LoggingFixture
+    {
+        protected static readonly RenderedCompactJsonFormatter Formatter = new();
+    }
+
+#if NETFRAMEWORK
+    [ExcludeFromCodeCoverage]
+#endif
+    public class LoggingFixture<T> : LoggingFixture, IDisposable
     {
         private const string OutputTemplate =
             "{Timestamp:yyyy-MM-dd HH:mm:ss.fffffff zzz} [{Level:u3}] {Message:lj} ==> {Properties}{NewLine}{Exception}";
-
-        private static readonly RenderedCompactJsonFormatter formatter = new();
 
         public ILogger? Logger { get; private set; }
 
@@ -40,33 +49,28 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
 
         private static ILogger CreateLogger(object output)
         {
-            var loggerConfiguration = new LoggerConfiguration();
+            var options = new XUnit3TestOutputSinkOptions(OutputTemplate, CultureInfo.CurrentCulture);
 
-            loggerConfiguration
-                .MinimumLevel.Verbose()
-                .WriteTo.File(
-                    formatter: formatter,
-                    path: Path.Combine(AppContext.BaseDirectory, "xunit-output.log"),
-                    restrictedToMinimumLevel: LogEventLevel.Verbose,
-                    shared: true,
-                    encoding: Encoding.UTF8
-                );
-
-            switch (output)
+            XUnit3TestOutputSink sink = output switch
             {
-                case ITestOutputHelper testOutputHelper:
-                    loggerConfiguration.WriteTo.TestOutput(testOutputHelper, LogEventLevel.Verbose, OutputTemplate);
-                    break;
+                ITestOutputHelper testOutputHelper => new(options) { TestOutputHelper = testOutputHelper },
+                IMessageSink messageSink => new(options) { MessageSink = messageSink },
+                _ => new(options)
+            };
 
-                case IMessageSink messageSink:
-                    loggerConfiguration.WriteTo.TestOutput(messageSink, LogEventLevel.Verbose, OutputTemplate);
-                    break;
-
-                default:
-                    break;
-            }
-
-            return loggerConfiguration.CreateLogger().ForContext<T>();
+            return
+                new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
+                    .WriteTo.File(
+                        formatter: Formatter,
+                        path: Path.Combine(AppContext.BaseDirectory, "xunit-output.log"),
+                        restrictedToMinimumLevel: LogEventLevel.Verbose,
+                        shared: true,
+                        encoding: Encoding.UTF8
+                    )
+                    .WriteTo.XUnit3TestOutput(sink, LogEventLevel.Verbose)
+                    .CreateLogger()
+                    .ForContext<T>();
         }
 
         #region Dispose pattern implementation
