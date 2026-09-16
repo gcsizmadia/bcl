@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+#if !NET8_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Linq;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations.Internals.Flags;
@@ -66,6 +68,9 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
             return numbers.OrderBy(number => number);
         }
 
+#if !NET8_0_OR_GREATER
+        [SuppressMessage(SonarQube.Category, SonarQube.S1244)]
+#endif
         protected static bool IsPowerOf2Core(double value)
         {
             double log = Math.Log(value, PowerBase);
@@ -73,7 +78,6 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
             return log == Math.Floor(log);
         }
 
-        [SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "<Pending>")]
         private static IEnumFlags<TUnderlying> CreateInstance()
         {
             if (!flagsByUnderlyingType.TryGetValue(typeof(TUnderlying), out Type? flagsType))

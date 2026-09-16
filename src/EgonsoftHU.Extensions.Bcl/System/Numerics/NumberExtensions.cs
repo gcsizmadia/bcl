@@ -2,8 +2,9 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
-using System.Collections.Generic;
+#if NET5_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 using EgonsoftHU.Extensions.Bcl.Enumerations;
 using EgonsoftHU.Extensions.Bcl.Internals;
@@ -42,7 +43,6 @@ namespace EgonsoftHU.Extensions.Bcl
     /// <see cref="Decimal"/>
     /// </summary>
 #endif
-    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
     public static class NumberExtensions
     {
         #region IsZero
@@ -116,6 +116,7 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <param name="value">The value to be checked.</param>
         /// <returns><see langword="true" /> if <paramref name="value" /> is zero; otherwise, <see langword="false" />.</returns>
         /// <remarks>This function treats both positive and negative zero as zero and so will return <see langword="true" /> for <c>+0.0</c> and <c>-0.0</c>.</remarks>
+        [SuppressMessage(SonarQube.Category, SonarQube.S1244)]
         public static bool IsZero(this Half value)
         {
             return value == (Half)0f;
@@ -208,9 +209,6 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <para>If this type has signed zero, then <c>-0</c> is also considered negative.</para>
         /// <para>This function returning <see langword="false" /> does not imply that <see cref="IsPositive(Byte)" /> will return <see langword="true" />.</para>
         /// </remarks>
-#if NET6_0_OR_GREATER
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
-#endif
         public static bool IsNegative(this byte value)
         {
             return false;
@@ -223,9 +221,6 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <para>If this type has signed zero, then <c>-0</c> is also considered negative.</para>
         /// <para>This function returning <see langword="false" /> does not imply that <see cref="IsPositive(UInt16)" /> will return <see langword="true" />.</para>
         /// </remarks>
-#if NET6_0_OR_GREATER
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
-#endif
         public static bool IsNegative(this ushort value)
         {
             return false;
@@ -238,9 +233,6 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <para>If this type has signed zero, then <c>-0</c> is also considered negative.</para>
         /// <para>This function returning <see langword="false" /> does not imply that <see cref="IsPositive(UInt32)" /> will return <see langword="true" />.</para>
         /// </remarks>
-#if NET6_0_OR_GREATER
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
-#endif
         public static bool IsNegative(this uint value)
         {
             return false;
@@ -253,9 +245,6 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <para>If this type has signed zero, then <c>-0</c> is also considered negative.</para>
         /// <para>This function returning <see langword="false" /> does not imply that <see cref="IsPositive(UInt64)" /> will return <see langword="true" />.</para>
         /// </remarks>
-#if NET6_0_OR_GREATER
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter")]
-#endif
         public static bool IsNegative(this ulong value)
         {
             return false;

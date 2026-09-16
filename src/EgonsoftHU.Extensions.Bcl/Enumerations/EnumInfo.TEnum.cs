@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations.Internals;
@@ -18,6 +19,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
     /// </summary>
     /// <typeparam name="TEnum">The type of the enumeration.</typeparam>
     [DebuggerDisplay("{DebuggerDisplayValue}")]
+    [SuppressMessage(SonarQube.Category, SonarQube.S2743)]
     public abstract partial class EnumInfo<TEnum> : EnumInfo
         where TEnum : struct, Enum
     {

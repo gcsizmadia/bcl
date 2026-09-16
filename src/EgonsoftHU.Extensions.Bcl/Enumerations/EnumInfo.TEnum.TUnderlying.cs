@@ -15,6 +15,7 @@ using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
 {
+    [SuppressMessage(SonarQube.Category, SonarQube.S3963)]
     internal abstract partial class EnumInfo<TEnum, TUnderlying> : EnumInfo<TEnum>
         where TEnum : struct, Enum
         where TUnderlying : struct, IComparable<TUnderlying>
