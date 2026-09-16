@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace EgonsoftHU.Extensions.Bcl.Collections.Generic
 {
-    internal struct SingleElementSequence<T> : IEnumerable<T>
+    internal readonly struct SingleElementSequence<T> : IEnumerable<T>
     {
         private readonly T value;
 
@@ -17,12 +17,16 @@ namespace EgonsoftHU.Extensions.Bcl.Collections.Generic
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new SingleElementEnumerator(ref this);
+            SingleElementSequence<T> sequence = this;
+
+            return new SingleElementEnumerator(ref sequence);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return new SingleElementEnumerator(ref this);
+            SingleElementSequence<T> sequence = this;
+
+            return new SingleElementEnumerator(ref sequence);
         }
 
         private struct SingleElementEnumerator : IEnumerator<T>
