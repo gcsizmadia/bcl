@@ -18,7 +18,7 @@ namespace EgonsoftHU.Extensions.Bcl
     /// </summary>
     public class ErrorMessageConfiguration
     {
-        private static readonly Dictionary<string, ErrorMessageProviderAttribute> errorMessages =
+        private static readonly Dictionary<string, ErrorMessageProviderAttribute> ErrorMessages =
             new()
             {
                 [ErrorMessageKey.Argument_EmptyEnumerable] =
@@ -126,7 +126,7 @@ namespace EgonsoftHU.Extensions.Bcl
 
             ThrowIfKeyNotFound(errorMessageKey);
 
-            errorMessages[errorMessageKey] = new() { ErrorMessage = errorMessage };
+            ErrorMessages[errorMessageKey] = new() { ErrorMessage = errorMessage };
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace EgonsoftHU.Extensions.Bcl
 
             ThrowIfKeyNotFound(errorMessageKey);
 
-            errorMessages[errorMessageKey] =
+            ErrorMessages[errorMessageKey] =
                 new()
                 {
                     ErrorMessageResourceType = errorMessageResourceType,
@@ -247,7 +247,7 @@ namespace EgonsoftHU.Extensions.Bcl
             errorMessageKey.ThrowIfNullOrWhiteSpace();
             ThrowIfKeyNotFound(errorMessageKey);
 
-            return errorMessages[errorMessageKey].FormatErrorMessage(paramName, value);
+            return ErrorMessages[errorMessageKey].GetFormattedErrorMessage(paramName, value);
         }
 
         private static string FormatErrorMessage<T>(string? paramName, T value, T other, [CallerMemberName] string? errorMessageKey = null)
@@ -255,12 +255,12 @@ namespace EgonsoftHU.Extensions.Bcl
             errorMessageKey.ThrowIfNullOrWhiteSpace();
             ThrowIfKeyNotFound(errorMessageKey);
 
-            return errorMessages[errorMessageKey].FormatErrorMessage(paramName, value, other);
+            return ErrorMessages[errorMessageKey].GetFormattedErrorMessage(paramName, value, other);
         }
 
         private static void ThrowIfKeyNotFound(string errorMessageKey)
         {
-            if (!errorMessages.ContainsKey(errorMessageKey))
+            if (!ErrorMessages.ContainsKey(errorMessageKey))
             {
                 ThrowKeyNotFoundException(errorMessageKey);
             }
@@ -272,9 +272,10 @@ namespace EgonsoftHU.Extensions.Bcl
             throw KeyNotFoundExceptions.KeyNotFound(errorMessageKey);
         }
 
+        [AttributeUsage(AttributeTargets.All)]
         private sealed class ErrorMessageProviderAttribute : ValidationAttribute
         {
-            internal string FormatErrorMessage(params object?[] args)
+            internal string GetFormattedErrorMessage(params object?[] args)
             {
                 return String.Format(CultureInfo.CurrentCulture, ErrorMessageString, args);
             }
