@@ -1,0 +1,78 @@
+﻿<!--
+Copyright © 2022-2026 Gabor Csizmadia
+This code is licensed under MIT license (see LICENSE for details)
+-->
+<Project>
+
+  <PropertyGroup Condition="'$(IsPackable)' != 'true'">
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsPackable)' == 'true'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>obj\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <None Include="README.md" Pack="True" PackagePath="\" Condition="Exists('README.md')" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <LangVersion Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0')) ">10.0</LangVersion>
+    <LangVersion Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0')) ">11.0</LangVersion>
+    <LangVersion Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0')) ">12.0</LangVersion>
+    <LangVersion Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0')) ">13.0</LangVersion>
+    <LangVersion Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0')) ">14.0</LangVersion>
+    <LangVersion Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net11.0')) ">15.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersions Condition="'$(LangVersion)' == '15.0'">9.0,10.0,11.0,12.0,13.0,14.0,15.0</LangVersions>
+    <LangVersions Condition="'$(LangVersion)' == '14.0'">9.0,10.0,11.0,12.0,13.0,14.0</LangVersions>
+    <LangVersions Condition="'$(LangVersion)' == '13.0'">9.0,10.0,11.0,12.0,13.0</LangVersions>
+    <LangVersions Condition="'$(LangVersion)' == '12.0'">9.0,10.0,11.0,12.0</LangVersions>
+    <LangVersions Condition="'$(LangVersion)' == '11.0'">9.0,10.0,11.0</LangVersions>
+    <LangVersions Condition="'$(LangVersion)' == '10.0'">9.0,10.0</LangVersions>
+    <LangVersions Condition="'$(LangVersion)' == '9.0'">9.0</LangVersions>
+    <DefineConstants Condition="$(LangVersions.Contains('9.0'))">$(DefineConstants);LANGVERSION9_0;LANGVERSION9_0_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="$(LangVersions.Contains('10.0'))">$(DefineConstants);LANGVERSION10_0;LANGVERSION10_0_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="$(LangVersions.Contains('11.0'))">$(DefineConstants);LANGVERSION11_0;LANGVERSION11_0_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="$(LangVersions.Contains('12.0'))">$(DefineConstants);LANGVERSION12_0;LANGVERSION12_0_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="$(LangVersions.Contains('13.0'))">$(DefineConstants);LANGVERSION13_0;LANGVERSION13_0_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="$(LangVersions.Contains('14.0'))">$(DefineConstants);LANGVERSION14_0;LANGVERSION14_0_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="$(LangVersions.Contains('15.0'))">$(DefineConstants);LANGVERSION15_0;LANGVERSION15_0_OR_GREATER</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(LangVersion)' == '9.0'">
+    <IsCompatibleWithNetFramework47>$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net47'))</IsCompatibleWithNetFramework47>
+    <IsCompatibleWithNetStandard20>$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.0'))</IsCompatibleWithNetStandard20>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(IsCompatibleWithNetFramework47)' != 'true' And $(IsCompatibleWithNetStandard20) != 'true' And '$(ExcludeRestorePackageImports)' == 'true'">
+    <SystemValueTuplePackageRequired>true</SystemValueTuplePackageRequired>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(LangVersion)' == '9.0'">
+    <PackageReference Include="RandomSkunk.RuntimePolyfill" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple" Version="4.6.2" Condition="'$(SystemValueTuplePackageRequired)' == 'true'" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <EgonsoftHUAssemblyVersionTargetsFile>$(MSBuildThisFileDirectory)EgonsoftHU.AssemblyVersion.targets</EgonsoftHUAssemblyVersionTargetsFile>
+    <EgonsoftHUNuspecPropertiesTargetsFile>$(MSBuildThisFileDirectory)EgonsoftHU.NuspecProperties.targets</EgonsoftHUNuspecPropertiesTargetsFile>
+  </PropertyGroup>
+
+  <Import Project="$(EgonsoftHUAssemblyVersionTargetsFile)" Condition="Exists('$(EgonsoftHUAssemblyVersionTargetsFile)')" />
+  <Import Project="$(EgonsoftHUNuspecPropertiesTargetsFile)" Condition="Exists('$(EgonsoftHUNuspecPropertiesTargetsFile)')" />
+
+</Project>

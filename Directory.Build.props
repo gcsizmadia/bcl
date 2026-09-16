@@ -1,5 +1,5 @@
 ﻿<!--
-Copyright © 2022-2024 Gabor Csizmadia
+Copyright © 2022-2026 Gabor Csizmadia
 This code is licensed under MIT license (see LICENSE for details)
 -->
 <Project>
@@ -13,7 +13,7 @@ This code is licensed under MIT license (see LICENSE for details)
   </PropertyGroup>
 
   <PropertyGroup>
-    <EgonsoftHUCommonPropsFile>$(MSBuildThisFileDirectory)..\..\build\EgonsoftHU.Common.props</EgonsoftHUCommonPropsFile>
+    <EgonsoftHUCommonPropsFile>$(MSBuildThisFileDirectory)build\EgonsoftHU.Common.props</EgonsoftHUCommonPropsFile>
   </PropertyGroup>
 
   <Import Project="$(EgonsoftHUCommonPropsFile)" Condition="Exists('$(EgonsoftHUCommonPropsFile)')" />

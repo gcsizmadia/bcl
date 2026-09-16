@@ -1,0 +1,108 @@
+﻿<!--
+Copyright © 2022-2026 Gabor Csizmadia
+This code is licensed under MIT license (see LICENSE for details)
+-->
+<Project>
+
+  <!-- Support for dotnet CLI commands -->
+  <PropertyGroup>
+    <SolutionDir>$(MSBuildThisFileDirectory)..\</SolutionDir>
+  </PropertyGroup>
+
+  <!-- Support for dotnet CLI commands (dotnet_style_namespace_match_folder) -->
+  <ItemGroup>
+    <CompilerVisibleProperty Include="RootNamespace" />
+    <CompilerVisibleProperty Include="ProjectDir" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ProjectFolder Condition="'$(ProjectFolder)' == ''">src</ProjectFolder>
+    <ProjectFolder Condition="$(MSBuildProjectName.EndsWith('Tests'))">test</ProjectFolder>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace Condition="'$(ProjectFolder)' == 'test'">$(RootNamespace).UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ProjectFolder)' == 'src'">
+    <ApplicationManifest>$(SolutionDir)src\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AnalysisMode>recommended</AnalysisMode>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Common assembly attributes -->
+  <PropertyGroup>
+    <!--
+    MSBuild property      Win32 VERSIONINFO field  Assembly attribute                     Property to disable attribute generation
+    ================      =======================  ==================                     ========================================
+    Company               CompanyName              AssemblyCompanyAttribute               GenerateAssemblyCompanyAttribute
+    Copyright             LegalCopyright           AssemblyCopyrightAttribute             GenerateAssemblyCopyrightAttribute
+    Product               ProductName              AssemblyProductAttribute               GenerateAssemblyProductAttribute
+    AssemblyTitle         FileDescription          AssemblyTitleAttribute                 GenerateAssemblyTitleAttribute
+    Description           Comments                 AssemblyDescriptionAttribute           GenerateAssemblyDescriptionAttribute
+    Configuration         -                        AssemblyConfigurationAttribute         GenerateAssemblyConfigurationAttribute
+    AssemblyVersion       -                        AssemblyVersionAttribute               GenerateAssemblyVersionAttribute
+    FileVersion           FileVersion              AssemblyFileVersionAttribute           GenerateAssemblyFileVersionAttribute
+    InformationalVersion  ProductVersion           AssemblyInformationalVersionAttribute  GenerateAssemblyInformationalVersionAttribute
+    NeutralLanguage       -                        NeutralResourcesLanguageAttribute      GenerateNeutralResourcesLanguageAttribute
+    -->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <Company>Egonsoft.HU</Company>
+    <Copyright>Copyright © 2022-$([System.DateTime]::Now.Year) Gabor Csizmadia</Copyright>
+  </PropertyGroup>
+
+  <!-- Nuget package properties -->
+  <PropertyGroup>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageOutputPath>$(SolutionDir)nupkgs\</PackageOutputPath>
+    <IsPackable>false</IsPackable>
+    <!--<PackageId></PackageId>-->
+    <!--<VersionPrefix></VersionPrefix>-->
+    <!--<VersionSuffix></VersionSuffix>-->
+    <Authors>Gabor Csizmadia</Authors>
+    <Owners>Egonsoft.HU</Owners>
+    <!--<Title></Title>-->
+    <!--<Description></Description>-->
+    <!--<Summary></Summary>-->
+    <!--<Copyright></Copyright>-->
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!--<PackageProjectUrl></PackageProjectUrl>-->
+    <!--<PackageIcon></PackageIcon>-->
+    <!--<PackageIconUrl></PackageIconUrl>-->
+    <PackageReadmeFile Condition="Exists('README.md')">README.md</PackageReadmeFile>
+    <PackageTags>EgonsoftHU egonsoft.hu egonsoft</PackageTags>
+    <!--<PackageReleaseNotes></PackageReleaseNotes>-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!--<RepositoryUrl></RepositoryUrl>-->
+    <RepositoryType>git</RepositoryType>
+    <!--<RepositoryBranch></RepositoryBranch>-->
+    <!--<RepositoryCommit></RepositoryCommit>-->
+    <PackageType>Dependency</PackageType>
+    <DevelopmentDependency>false</DevelopmentDependency>
+    <MinClientVersion>6.1.0</MinClientVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyConfigurationAttribute">
+      <_Parameter1>$([MSBuild]::GetTargetFrameworkIdentifier($(TargetFramework))),Version=$(TargetFrameworkVersion),Configuration=$(Configuration)</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
+      <_Parameter1>false</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(ProjectFolder)' == 'test' And '$([MSBuild]::GetTargetFrameworkIdentifier($(TargetFramework)))' != '.NETFramework'">
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"></AssemblyAttribute>
+  </ItemGroup>
+
+</Project>

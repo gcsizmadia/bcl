@@ -1,0 +1,158 @@
+﻿<!--
+Copyright © 2022-2026 Gabor Csizmadia
+This code is licensed under MIT license (see LICENSE for details)
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+
+  <UsingTask
+    TaskName="EgonsoftHU_UpdateNuspecFile"
+    TaskFactory="CodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <NuspecFilePath Required="True" />
+      <Owners />
+      <Summary />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System" />
+      <Reference Include="System.Xml" />
+      <Reference Include="System.Xml.Linq" />
+      <Using Namespace="System" />
+      <Using Namespace="System.Xml.Linq" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+          
+          Log.LogMessage(MessageImportance.High, "");
+          
+          if (File.Exists(NuspecFilePath))
+          {
+            Log.LogMessage(MessageImportance.High, "The .nuspec file was found.");
+          }
+          else
+          {
+            Log.LogError("Could not find .nuspec file.");
+            
+            return false;
+          }
+          
+          bool hasOwners = !String.IsNullOrWhiteSpace(Owners);
+          bool hasSummary = !String.IsNullOrWhiteSpace(Summary);
+          
+          if (!hasOwners && !hasSummary)
+          {
+            Log.LogWarning("Both Owners and Summary MSBuild properties are empty. The .nuspec file will be unmodified.");
+            
+            return false;
+          }
+          
+          Log.LogMessage(MessageImportance.High, "Loading .nuspec file...");
+          var nuspec = XDocument.Load(NuspecFilePath);
+          
+          Log.LogMessage(MessageImportance.High, "Getting default XML namespace...");
+          string xsdNamespace = nuspec.Root.GetDefaultNamespace().NamespaceName;
+          
+          Log.LogMessage(MessageImportance.High, "Getting <metadata> node...");
+          var metadataNode = nuspec.Root.Descendants(XName.Get("metadata", xsdNamespace)).Single();
+          
+          if (hasOwners)
+          {
+            Log.LogMessage(MessageImportance.High, "Getting <authors> node...");
+            var authorsNode = metadataNode.Descendants(XName.Get("authors", xsdNamespace)).Single();
+            
+            Log.LogMessage(MessageImportance.High, "Appending <owners> node...");
+            authorsNode.AddAfterSelf(new XElement(XName.Get("owners", xsdNamespace)) { Value = Owners });
+          }
+          
+          if (hasSummary)
+          {
+            Log.LogMessage(MessageImportance.High, "Getting <description> node...");
+            var descriptionNode = metadataNode.Descendants(XName.Get("description", xsdNamespace)).Single();
+            
+            Log.LogMessage(MessageImportance.High, "Appending <summary> node...");
+            descriptionNode.AddAfterSelf(new XElement(XName.Get("summary", xsdNamespace)) { Value = Summary });
+          }
+          
+          Log.LogMessage(MessageImportance.High, "Saving .nuspec file...");
+          nuspec.Save(NuspecFilePath);
+          
+          return true;
+          
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="EgonsoftHU_UpdateNupkgFile" AfterTargets="Pack">
+
+    <PropertyGroup>
+      <PackageOutputPath Condition="$(PackageOutputPath) != ''">$([System.IO.Path]::GetFullPath('$(PackageOutputPath)'))</PackageOutputPath>
+      
+      <EgonsoftHU_NupkgFileName>$(PackageId).$(PackageVersion).nupkg</EgonsoftHU_NupkgFileName>
+      <EgonsoftHU_NupkgFilePath>$([System.IO.Path]::Combine('$(PackageOutputPath)', '$(EgonsoftHU_NupkgFileName)'))</EgonsoftHU_NupkgFilePath>
+
+      <EgonsoftHU_TempFolderName>$([System.Guid]::NewGuid().ToString('D'))</EgonsoftHU_TempFolderName>
+      <EgonsoftHU_TempFolderPath>$([System.IO.Path]::Combine('$(PackageOutputPath)', '$(EgonsoftHU_TempFolderName)'))</EgonsoftHU_TempFolderPath>
+
+      <EgonsoftHU_NuspecFileName>$(PackageId).nuspec</EgonsoftHU_NuspecFileName>
+      <EgonsoftHU_NuspecFilePath>$([System.IO.Path]::Combine('$(EgonsoftHU_TempFolderPath)', '$(EgonsoftHU_NuspecFileName)'))</EgonsoftHU_NuspecFilePath>
+    </PropertyGroup>
+   
+    <Message Importance="high" Text=" " />
+    <Message Importance="high" Text="======================================" />
+    <Message Importance="high" Text="Egonsoft.HU NuGet package updater v1.0" />
+    <Message Importance="high" Text="======================================" />
+    <Message Importance="high" Text="Author        : Gabor Csizmadia" />
+    <Message Importance="high" Text="Description   : Update .nuspec file by adding owners and summary elements using Owners and Summary MSBuild properties." />
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="Creating temporary folder..." />
+    <Message Importance="high" Text="  Folder      : [$(EgonsoftHU_TempFolderPath)]" />
+    <MakeDir
+      Directories="$(EgonsoftHU_TempFolderPath)"
+      />
+
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="Unzipping .nupkg file to the temporary folder..." />
+    <Message Importance="high" Text="  .nupkg file : [$(EgonsoftHU_NupkgFilePath)]" />
+    <Message Importance="high" Text="  Folder      : [$(EgonsoftHU_TempFolderPath)]" />
+    <Unzip
+      SourceFiles="$(EgonsoftHU_NupkgFilePath)"
+      DestinationFolder="$(EgonsoftHU_TempFolderPath)"
+      />
+
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="Updating .nuspec file..." />
+    <Message Importance="high" Text="  .nuspec file: [$(EgonsoftHU_NuspecFilePath)]" />
+    <Message Importance="high" Text="  Owners      : [$(Owners)]" />
+    <Message Importance="high" Text="  Summary     : [$(Summary)]" />
+    <EgonsoftHU_UpdateNuspecFile
+      NuspecFilePath="$(EgonsoftHU_NuspecFilePath)"
+      Owners="$(Owners)"
+      Summary="$(Summary)"
+      />
+
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="Creating new .nupkg file from the contents of the temporary folder..." />
+    <Message Importance="high" Text="  .nupkg file : [$(EgonsoftHU_NupkgFilePath)]" />
+    <Message Importance="high" Text="  Folder      : [$(EgonsoftHU_TempFolderPath)]" />
+    <Message Importance="high" Text=" " />
+    <ZipDirectory
+      SourceDirectory="$(EgonsoftHU_TempFolderPath)"
+      DestinationFile="$(EgonsoftHU_NupkgFilePath)"
+      Overwrite="True"
+      />
+
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="Deleting temporary folder..." />
+    <Message Importance="high" Text="  Folder      : [$(EgonsoftHU_TempFolderPath)]" />
+    <RemoveDir
+      Directories="$(EgonsoftHU_TempFolderPath)"
+      />
+
+    <Message Importance="high" Text="--------------------------------------" />
+    <Message Importance="high" Text="The new .nupkg file has been created..." />
+    <Message Importance="high" Text="  .nupkg file : [$(EgonsoftHU_NupkgFilePath)]" />
+    <Message Importance="high" Text="======================================" />
+
+  </Target>
+  
+</Project>

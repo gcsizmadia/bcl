@@ -1,0 +1,82 @@
+﻿<!--
+Copyright © 2022-2026 Gabor Csizmadia
+This code is licensed under MIT license (see LICENSE for details)
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      EgonsoftHU_SetProperties;
+      EgonsoftHU_DisplayBuildProperties;
+      $(BuildDependsOn)
+    </BuildDependsOn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateNuspecDependsOn>
+      EgonsoftHU_SetProperties;
+      $(GenerateNuspecDependsOn)
+    </GenerateNuspecDependsOn>
+  </PropertyGroup>
+
+  <Target Name="EgonsoftHU_SetProperties" DependsOnTargets="AddSourceRevisionToInformationalVersion" Condition="'$(SourceControlInformationFeatureSupported)' == 'true'">
+    <PropertyGroup>
+      <RepositoryUrl Condition="'$(RepositoryUrl)' == ''">$(ScmRepositoryUrl)</RepositoryUrl>
+      <RepositoryBranch Condition="'$(RepositoryBranch)' == ''">$(SourceBranchName)</RepositoryBranch>
+      <RepositoryCommit Condition="'$(RepositoryCommit)' == ''">$(SourceRevisionId)</RepositoryCommit>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="EgonsoftHU_DisplayBuildProperties" DependsOnTargets="EgonsoftHU_SetProperties">
+    <Message Importance="high" Text=" " />
+    <Message Importance="high" Text="=================================" />
+    <Message Importance="high" Text="MSBuildProjectName              : $(MSBuildProjectName)" />
+    <Message Importance="high" Text="IsPackable                      : $(IsPackable)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="TargetFramework                 : $(TargetFramework)" />
+    <Message Importance="high" Text="LangVersion                     : $(LangVersion)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="GenerateDocumentationFile       : $(GenerateDocumentationFile)" />
+    <Message Importance="high" Text="DocumentationFile               : $(DocumentationFile)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="PackageProjectUrl               : $(PackageProjectUrl)" />
+    <Message Importance="high" Text="PrivateRepositoryUrl            : $(PrivateRepositoryUrl)" />
+    <Message Importance="high" Text="RepositoryType                  : $(RepositoryType)" />
+    <Message Importance="high" Text="RepositoryUrl                   : $(RepositoryUrl)" />
+    <Message Importance="high" Text="RepositoryBranch                : $(RepositoryBranch)" />
+    <Message Importance="high" Text="RepositoryCommit                : $(RepositoryCommit)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="VersionPrefix                   : $(VersionPrefix)" />
+    <Message Importance="high" Text="VersionSuffix                   : $(VersionSuffix)" />
+    <Message Importance="high" Text="SourceRevisionId                : $(SourceRevisionId)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="Version                         : $(Version)" />
+    <Message Importance="high" Text="PackageVersion                  : $(PackageVersion)" />
+    <Message Importance="high" Text="AssemblyVersion                 : $(AssemblyVersion)" />
+    <Message Importance="high" Text="FileVersion                     : $(FileVersion)" />
+    <Message Importance="high" Text="InformationalVersion            : $(InformationalVersion)" />
+    <Message Importance="high" Text="=================================" />
+  </Target>
+
+  <Target Name="DisplayVersion" AfterTargets="GenerateNuspec" Condition=" '$(IsPackable)' == 'true' ">
+    <Message Importance="high" Text="=================================" />
+    <Message Importance="high" Text="Version                         : $(Version)" />
+    <Message Importance="high" Text="PackageVersion                  : $(PackageVersion)" />
+    <Message Importance="high" Text="AssemblyVersion                 : $(AssemblyVersion)" />
+    <Message Importance="high" Text="FileVersion                     : $(FileVersion)" />
+    <Message Importance="high" Text="InformationalVersion            : $(InformationalVersion)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="GenerateDocumentationFile       : $(GenerateDocumentationFile)" />
+    <Message Importance="high" Text="DocumentationFile               : $(DocumentationFile)" />
+    <Message Importance="high" Text="---------------------------------" />
+    <Message Importance="high" Text="PackageProjectUrl               : $(PackageProjectUrl)" />
+    <Message Importance="high" Text="PrivateRepositoryUrl            : $(PrivateRepositoryUrl)" />
+    <Message Importance="high" Text="RepositoryType                  : $(RepositoryType)" />
+    <Message Importance="high" Text="RepositoryUrl                   : $(RepositoryUrl)" />
+    <Message Importance="high" Text="RepositoryBranch                : $(RepositoryBranch)" />
+    <Message Importance="high" Text="RepositoryCommit                : $(RepositoryCommit)" />
+    <Message Importance="high" Text="=================================" />
+    <Message Importance="high" Text=" " />
+  </Target>
+
+</Project>

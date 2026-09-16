@@ -1,11 +1,11 @@
 ﻿<!--
-Copyright © 2022-2024 Gabor Csizmadia
+Copyright © 2022-2026 Gabor Csizmadia
 This code is licensed under MIT license (see LICENSE for details)
 -->
 <Project>
 
   <PropertyGroup>
-    <EgonsoftHUCommonTargetsFile>$(MSBuildThisFileDirectory)..\..\build\EgonsoftHU.Common.targets</EgonsoftHUCommonTargetsFile>
+    <EgonsoftHUCommonTargetsFile>$(MSBuildThisFileDirectory)build\EgonsoftHU.Common.targets</EgonsoftHUCommonTargetsFile>
   </PropertyGroup>
 
   <Import Project="$(EgonsoftHUCommonTargetsFile)" Condition="Exists('$(EgonsoftHUCommonTargetsFile)')" />
