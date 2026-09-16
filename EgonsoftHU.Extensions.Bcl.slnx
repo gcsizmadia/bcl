@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/00_Build/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="build/EgonsoftHU.AssemblyVersion.targets" />
+    <File Path="build/EgonsoftHU.Common.props" />
+    <File Path="build/EgonsoftHU.Common.targets" />
+    <File Path="build/EgonsoftHU.NuspecProperties.targets" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="src/app.manifest" />
+  </Folder>
+  <Folder Name="/00_Documents/">
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/01_Source/">
+    <Project Path="src/EgonsoftHU.Extensions.Bcl/EgonsoftHU.Extensions.Bcl.csproj" />
+  </Folder>
+  <Folder Name="/99_Tests/">
+    <File Path="tests/.editorconfig" />
+    <Project Path="tests/EgonsoftHU.Extensions.Bcl.UnitTests/EgonsoftHU.Extensions.Bcl.UnitTests.csproj" />
+  </Folder>
+</Solution>
