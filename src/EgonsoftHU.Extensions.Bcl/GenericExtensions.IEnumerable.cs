@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+#if !NET8_0_OR_GREATER
 using EgonsoftHU.Extensions.Bcl.Collections.Generic;
+#endif
 
 namespace EgonsoftHU.Extensions.Bcl
 {
@@ -24,6 +26,7 @@ namespace EgonsoftHU.Extensions.Bcl
             yield return value;
         }
 
+#if !NET8_0_OR_GREATER
         /// <summary>
         /// Returns a value as a sequence that contains only that value.
         /// </summary>
@@ -34,6 +37,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             return new SingleElementSequence<T>(value);
         }
+#endif
 
         /// <summary>
         /// Determines whether a specified collection contains the current value by using a specified <see cref="IEqualityComparer{T}"/>.
