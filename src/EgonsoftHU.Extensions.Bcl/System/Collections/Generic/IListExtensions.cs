@@ -1,17 +1,15 @@
 ﻿// Copyright © 2022-2026 Gabor Csizmadia
 // This code is licensed under MIT license (see LICENSE for details)
 
-#if !NET7_0_OR_GREATER
+#if NET7_0_OR_GREATER
+// System.Collections.Generic.CollectionExtensions already contains AsReadOnly() extension method with the same signature.
+#else
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-#endif
 
 namespace EgonsoftHU.Extensions.Bcl
 {
-#if NET7_0_OR_GREATER
-    // System.Collections.Generic.CollectionExtensions already contains AsReadOnly() extension method with the same signature.
-#else
     /// <summary>
     /// This class contains extension methods that are available for <see cref="IList{T}"/> type.
     /// </summary>
@@ -35,5 +33,5 @@ namespace EgonsoftHU.Extensions.Bcl
             };
         }
     }
-#endif
 }
+#endif
