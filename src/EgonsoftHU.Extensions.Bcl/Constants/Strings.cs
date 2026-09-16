@@ -21,13 +21,48 @@ namespace EgonsoftHU.Extensions.Bcl.Constants
         public const string CommaSpaceSeparator = ", ";
 
         /// <summary>
+        /// The backslash (<c>\</c>) character as <see cref="String"/>.
+        /// </summary>
+        public const string Backslash = "\\";
+
+        /// <summary>
+        /// The colon (<c>:</c>) character as <see cref="String"/>.
+        /// </summary>
+        public const string Colon = ":";
+
+        /// <summary>
+        /// The comma (<c>,</c>) character as <see cref="String"/>.
+        /// </summary>
+        public const string Comma = ",";
+
+        /// <summary>
+        /// The dot (<c>.</c>) character as <see cref="String"/>.
+        /// </summary>
+        public const string Dot = ".";
+
+        /// <summary>
         /// The double quotation mark (<c>"</c>) character as <see cref="String"/>.
         /// </summary>
         public const string DoubleQuotationMark = "\"";
 
         /// <summary>
+        /// The hyphen (<c>-</c>) character as <see cref="String"/>.
+        /// </summary>
+        public const string Hyphen = "-";
+
+        /// <summary>
+        /// The semicolon (<c>;</c>) character as <see cref="String"/>.
+        /// </summary>
+        public const string Semicolon = ";";
+
+        /// <summary>
         /// The slash (<c>/</c>) character as <see cref="String"/>.
         /// </summary>
         public const string Slash = "/";
+
+        /// <summary>
+        /// The space character as <see cref="String"/>.
+        /// </summary>
+        public const string Space = " ";
     }
 }

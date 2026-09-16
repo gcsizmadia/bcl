@@ -11,6 +11,11 @@ namespace EgonsoftHU.Extensions.Bcl.Constants
     public static class Chars
     {
         /// <summary>
+        /// The backslash (<c>\</c>) character.
+        /// </summary>
+        public const char Backslash = '\\';
+
+        /// <summary>
         /// The colon (<c>:</c>) character.
         /// </summary>
         public const char Colon = ':';
