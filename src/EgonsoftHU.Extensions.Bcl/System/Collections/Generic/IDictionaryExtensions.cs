@@ -67,9 +67,9 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
         /// <param name="dictionary">The dictionary from which the value for the specified key is retrieved.</param>
         /// <param name="key">The key whose value to get.</param>
-        /// <returns>The value associated with the specified key, if the key is found; otherwise, <see cref="ArgumentException"/> is thrown.</returns>
+        /// <returns>The value associated with the specified key, if the key is found; otherwise, either <see cref="ArgumentNullException"/> or <see cref="KeyNotFoundException"/> is thrown.</returns>
         /// <exception cref="ArgumentNullException">Either <paramref name="dictionary"/> or <paramref name="key"/> is <see langword="null"/>.</exception>
-        /// <exception cref="ArgumentException">The given <paramref name="key"/> was not present in the <paramref name="dictionary"/>.</exception>
+        /// <exception cref="KeyNotFoundException">The given <paramref name="key"/> was not present in the <paramref name="dictionary"/>.</exception>
         public static TValue GetOrThrow<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
             where TKey : notnull
         {
