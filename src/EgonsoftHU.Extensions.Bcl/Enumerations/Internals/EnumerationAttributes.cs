@@ -11,6 +11,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+#if NET9_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
 {
@@ -28,6 +31,10 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
             Display = GetAttribute<DisplayAttribute>();
             DisplayName = GetAttribute<DisplayNameAttribute>();
             EnumMember = GetAttribute<EnumMemberAttribute>();
+
+#if NET9_0_OR_GREATER
+            JsonStringEnumMemberName = GetAttribute<JsonStringEnumMemberNameAttribute>();
+#endif
         }
 
         private EnumerationAttributes()
@@ -42,6 +49,10 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
         public DisplayNameAttribute? DisplayName { get; }
 
         public EnumMemberAttribute? EnumMember { get; }
+
+#if NET9_0_OR_GREATER
+        public JsonStringEnumMemberNameAttribute? JsonStringEnumMemberName { get; }
+#endif
 
         public TAttribute? GetAttribute<TAttribute>()
             where TAttribute : Attribute

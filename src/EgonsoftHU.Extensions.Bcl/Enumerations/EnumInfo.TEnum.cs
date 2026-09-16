@@ -95,7 +95,6 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
             Value = value;
 
             Attributes = EnumerationAttributes.Empty;
-            SerializedValue = name;
         }
 
         /// <summary>
@@ -180,11 +179,6 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         /// Gets the value of the underlying type constant in the <typeparamref name="TEnum"/> type converted to <see cref="UInt64"/>.
         /// </summary>
         public ulong UInt64Value { get; protected set; }
-
-        /// <summary>
-        /// Gets a string representation of the current enumeration value.
-        /// </summary>
-        public string SerializedValue { get; protected set; }
 
         /// <summary>
         /// Indicates whether the current enumeration value is the default value of the <typeparamref name="TEnum"/> type.

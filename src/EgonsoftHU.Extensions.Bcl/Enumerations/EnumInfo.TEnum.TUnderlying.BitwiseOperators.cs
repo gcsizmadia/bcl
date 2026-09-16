@@ -14,7 +14,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         public static EnumInfo<TEnum, TUnderlying> operator ~(EnumInfo<TEnum, TUnderlying> value)
         {
             TUnderlying[] currentBits = GetBits(value);
-            TUnderlying[] resultBits = bits.Except(currentBits).ToArray();
+            TUnderlying[] resultBits = Bits.Except(currentBits).ToArray();
 
             return CreateInstance(resultBits);
         }
@@ -22,7 +22,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         public static EnumInfo<TEnum, TUnderlying> operator |(EnumInfo<TEnum, TUnderlying> left, EnumInfo<TEnum, TUnderlying> right)
         {
             TUnderlying bitwiseOrValue =
-                flagCalculator.Construct(
+                FlagCalculator.Construct(
 #if LANGVERSION12_0_OR_GREATER
                     [.. GetBits(left), .. GetBits(right)]
 #else
@@ -30,7 +30,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 #endif
                 );
 
-            TUnderlying[] resultBits = flagCalculator.Deconstruct(bitwiseOrValue);
+            TUnderlying[] resultBits = FlagCalculator.Deconstruct(bitwiseOrValue);
 
             return CreateInstance(resultBits);
         }
@@ -67,7 +67,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 #else
                     ? Array.Empty<TUnderlying>()
 #endif
-                    : flagCalculator.Deconstruct(enumeration.UnderlyingValue);
+                    : FlagCalculator.Deconstruct(enumeration.UnderlyingValue);
         }
     }
 }

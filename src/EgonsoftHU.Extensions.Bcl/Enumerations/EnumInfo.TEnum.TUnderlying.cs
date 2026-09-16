@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 
 using EgonsoftHU.Extensions.Bcl.Constants;
 using EgonsoftHU.Extensions.Bcl.Enumerations.Internals;
-using EgonsoftHU.Extensions.Bcl.Enumerations.Serialization;
 using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
@@ -18,52 +17,52 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
     [SuppressMessage(SonarQube.Category, SonarQube.S3963)]
     internal abstract partial class EnumInfo<TEnum, TUnderlying> : EnumInfo<TEnum>
         where TEnum : struct, Enum
-        where TUnderlying : struct, IComparable<TUnderlying>
+        where TUnderlying : struct, IConvertible, IComparable<TUnderlying>
     {
-        private static readonly IEnumValueConverter<TEnum, TUnderlying> converter;
+        private static readonly IEnumValueConverter<TEnum, TUnderlying> Converter;
 
-        private static readonly IEnumFlags<TUnderlying> flagCalculator;
+        private static readonly IEnumFlags<TUnderlying> FlagCalculator;
 
-        private static readonly Comparer<TUnderlying> comparer;
+        private static readonly Comparer<TUnderlying> Comparer;
 
-        private static readonly ReadOnlyCollection<TUnderlying> bits;
+        private static readonly ReadOnlyCollection<TUnderlying> Bits;
 
-        private static readonly TUnderlying minValue;
+        private static readonly TUnderlying MinValue;
 
-        private static readonly TUnderlying maxValue;
+        private static readonly TUnderlying MaxValue;
 
 #if NETFRAMEWORK || NETSTANDARD2_0
         private static readonly char[] NameSeparators = new[] { Chars.Comma };
 #endif
 
-        private static readonly ReadOnlyDictionary<TUnderlying, List<EnumInfo<TEnum, TUnderlying>>> membersByUnderlyingValue;
+        private static readonly ReadOnlyDictionary<TUnderlying, List<EnumInfo<TEnum, TUnderlying>>> MembersByUnderlyingValue;
 
-        private static readonly ReadOnlyDictionary<TUnderlying, EnumInfo<TEnum, TUnderlying>> memberByUnderlyingValue;
+        private static readonly ReadOnlyDictionary<TUnderlying, EnumInfo<TEnum, TUnderlying>> MemberByUnderlyingValue;
 
         private ReadOnlyCollection<EnumInfo<TEnum, TUnderlying>> flags;
 
         static EnumInfo()
         {
-            converter = EnumValueConverter<TEnum, TUnderlying>.Instance;
-            flagCalculator = EnumFlags<TUnderlying>.Instance;
-            comparer = Comparer<TUnderlying>.Default;
+            Converter = EnumValueConverter<TEnum, TUnderlying>.Instance;
+            FlagCalculator = EnumFlags<TUnderlying>.Instance;
+            Comparer = Comparer<TUnderlying>.Default;
 
             DeclaredMembers = InitializeMembers();
-            membersByUnderlyingValue = InitializeMembersByUnderlyingValue();
-            memberByUnderlyingValue = InitializeMemberByUnderlyingValue();
+            MembersByUnderlyingValue = InitializeMembersByUnderlyingValue();
+            MemberByUnderlyingValue = InitializeMemberByUnderlyingValue();
 
             Default = InitializeDefault();
 
-            bits = InitializeBits();
-            minValue = InitializeMinValue();
-            maxValue = InitializeMaxValue();
+            Bits = InitializeBits();
+            MinValue = InitializeMinValue();
+            MaxValue = InitializeMaxValue();
         }
 
         private protected EnumInfo(string name, TEnum value)
             : base(name, value)
         {
-            UnderlyingValue = converter.ToUnderlyingType(value);
-            UInt64Value = converter.ToUInt64(UnderlyingValue);
+            UnderlyingValue = Converter.ToUnderlyingType(value);
+            UInt64Value = Converter.ToUInt64(UnderlyingValue);
 
             flags = Array.Empty<EnumInfo<TEnum, TUnderlying>>().AsReadOnly();
         }
@@ -71,7 +70,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         public static new ReadOnlyCollection<EnumInfo<TEnum, TUnderlying>> DeclaredMembers { get; private set; }
 
         public static new ReadOnlyCollection<EnumInfo<TEnum, TUnderlying>> DeclaredMembersExcludingSynonyms =>
-            memberByUnderlyingValue.Values.ToList().AsReadOnly();
+            MemberByUnderlyingValue.Values.ToList().AsReadOnly();
 
         public static new EnumInfo<TEnum, TUnderlying> Default { get; private set; }
 
@@ -147,7 +146,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         private static TUnderlying[] GetUnderlyingValuesFromNames(string[] names)
         {
             return
-                membersByUnderlyingValue
+                MembersByUnderlyingValue
                     .SelectMany(kvp => kvp.Value)
                     .Join(
                         names,
@@ -159,8 +158,12 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
                     .SelectMany(
                         underlyingValue =>
                             HasFlagsAttribute
-                                ? flagCalculator.Deconstruct(underlyingValue)
+                                ? FlagCalculator.Deconstruct(underlyingValue)
+#if NET8_0_OR_GREATER
+                                : [underlyingValue]
+#else
                                 : underlyingValue.AsSingleElementSequence()
+#endif
                     )
                     .Distinct()
                     .ToArray();
@@ -177,25 +180,38 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         {
             result = default;
 
+            if (IsValidUnderlyingValue(underlyingValue))
+            {
+                return
+                    TryCreateInstance(
+                        originalValue,
+                        throwOnFailure,
+                        out result,
+                        HasFlagsAttribute
+                            ? FlagCalculator.Deconstruct(underlyingValue)
+#if LANGVERSION12_0_OR_GREATER
+                            : [underlyingValue]
+#else
+                            : underlyingValue.AsSingleElementSequence().ToArray()
+#endif
+                    );
+            }
+
             return
-                IsValidUnderlyingValue(underlyingValue)
-                    ? HasFlagsAttribute
-                        ? TryCreateInstance(originalValue, throwOnFailure, out result, flagCalculator.Deconstruct(underlyingValue))
-                        : TryCreateInstance(originalValue, throwOnFailure, out result, underlyingValue)
-                    : throwOnFailure
-                        ? throw ArgumentExceptions.EnumMemberNotFound<TEnum, TOriginal>(originalValue, paramName: paramName)
-                        : false;
+                throwOnFailure
+                    ? throw ArgumentExceptions.EnumMemberNotFound<TEnum, TOriginal>(originalValue, paramName: paramName)
+                    : false;
         }
 
         private static bool IsValidUnderlyingValue(TUnderlying underlyingValue)
         {
             return
-                comparer.Compare(underlyingValue, default) == 0
+                Comparer.Compare(underlyingValue, default) == 0
                 ||
                 (
-                    comparer.Compare(underlyingValue, maxValue) <= 0
+                    Comparer.Compare(underlyingValue, MaxValue) <= 0
                     &&
-                    comparer.Compare(underlyingValue, minValue) >= 0
+                    Comparer.Compare(underlyingValue, MinValue) >= 0
                 );
         }
 
@@ -216,7 +232,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 
             ReadOnlyCollection<EnumInfo<TEnum, TUnderlying>> selectedMembers =
                 nonZeroFlags
-                    .Select(flag => memberByUnderlyingValue.TryGetValue(flag, out EnumInfo<TEnum, TUnderlying>? member) ? member : null)
+                    .Select(flag => MemberByUnderlyingValue.TryGetValue(flag, out EnumInfo<TEnum, TUnderlying>? member) ? member : null)
                     .OfType<EnumInfo<TEnum, TUnderlying>>()
                     .ToList()
                     .AsReadOnly();
@@ -231,10 +247,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
                         break;
                     }
 
-                    return
-                        throwOnFailure
-                            ? throw ArgumentExceptions.EnumMemberNotFound<TEnum, TOriginal>(originalValue)
-                            : false;
+                    return ThrowOrReturnFalse(throwOnFailure, ArgumentExceptions.EnumMemberNotFound<TEnum, TOriginal>(originalValue));
                 }
 
                 case 1:
@@ -247,10 +260,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
                 {
                     if (!HasFlagsAttribute)
                     {
-                        return
-                            throwOnFailure
-                                ? throw InvalidOperationExceptions.EnumTypeWithNoFlagsAttribute<TEnum>()
-                                : false;
+                        return ThrowOrReturnFalse(throwOnFailure, InvalidOperationExceptions.EnumTypeWithNoFlagsAttribute<TEnum>());
                     }
 
                     var invalidFlags =
@@ -260,15 +270,12 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 
                     if (invalidFlags.Count > 0)
                     {
-                        return
-                            throwOnFailure
-                                ? throw ArgumentExceptions.EnumMemberNotFound<TEnum, TUnderlying>(originalValue, invalidFlags)
-                                : false;
+                        return ThrowOrReturnFalse(throwOnFailure, ArgumentExceptions.EnumMemberNotFound<TEnum, TUnderlying>(originalValue, invalidFlags));
                     }
 
-                    TUnderlying bitwiseOrValue = flagCalculator.Construct(nonZeroFlags);
+                    TUnderlying bitwiseOrValue = FlagCalculator.Construct(nonZeroFlags);
 
-                    if (memberByUnderlyingValue.TryGetValue(bitwiseOrValue, out EnumInfo<TEnum, TUnderlying>? member))
+                    if (MemberByUnderlyingValue.TryGetValue(bitwiseOrValue, out EnumInfo<TEnum, TUnderlying>? member))
                     {
                         result = member;
                         break;
@@ -280,7 +287,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
                             selectedMembers.Select(selectedMember => selectedMember.Name)
                         );
 
-                    TEnum value = converter.ToEnumType(ref bitwiseOrValue);
+                    TEnum value = Converter.ToEnumType(bitwiseOrValue);
 
                     result = CreateSpecialInstance(name, value, selectedMembers);
                     break;
@@ -298,7 +305,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 
         private static bool IsZeroFlag(TUnderlying flag)
         {
-            return comparer.Compare(flag, default) == 0;
+            return Comparer.Compare(flag, default) == 0;
         }
 
         private static EnumInfo<TEnum, TUnderlying> CreateSpecialInstance(
@@ -314,9 +321,12 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 
             instance.flags = flags ?? Array.Empty<EnumInfo<TEnum, TUnderlying>>().AsReadOnly();
 
-            instance.SerializedValue = EnumValueSerializer.Current.Serialize(instance);
-
             return instance;
+        }
+
+        private static bool ThrowOrReturnFalse([DoesNotReturnIf(true)] bool throwOnFailure, Exception ex)
+        {
+            return throwOnFailure ? throw ex : false;
         }
     }
 }

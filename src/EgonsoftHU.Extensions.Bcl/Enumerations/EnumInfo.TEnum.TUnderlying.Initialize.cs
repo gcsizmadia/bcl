@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations.Internals;
-using EgonsoftHU.Extensions.Bcl.Enumerations.Serialization;
 using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
@@ -23,7 +22,11 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
                         field =>
                         {
                             string fieldName = field.Name;
-                            var fieldValue = (TEnum)field.GetValue(null)!;
+
+                            if (field.GetValue(null) is not TEnum fieldValue)
+                            {
+                                return null;
+                            }
 
                             object? instance = Activator.CreateInstance(EnumInfoType, fieldName, fieldValue);
 
@@ -34,9 +37,8 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 
                             enumeration.IsDefined = true;
                             enumeration.Attributes = new EnumerationAttributes(field);
-                            enumeration.SerializedValue = EnumValueSerializer.Current.Serialize(enumeration);
 
-                            enumeration.IsBit = flagCalculator.IsPowerOf2(enumeration.UnderlyingValue);
+                            enumeration.IsBit = FlagCalculator.IsPowerOf2(enumeration.UnderlyingValue);
 
                             return enumeration;
                         }
@@ -58,16 +60,16 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         private static ReadOnlyDictionary<TUnderlying, EnumInfo<TEnum, TUnderlying>> InitializeMemberByUnderlyingValue()
         {
             return
-                membersByUnderlyingValue
+                MembersByUnderlyingValue
                     .ToDictionary(kvp => kvp.Key, kvp => kvp.Value[0])
                     .AsReadOnly();
         }
 
         private static EnumInfo<TEnum, TUnderlying> InitializeDefault()
         {
-            TUnderlying defaultUnderlyingValue = converter.ToUnderlyingType(DefaultValue);
+            TUnderlying defaultUnderlyingValue = Converter.ToUnderlyingType(DefaultValue);
 
-            if (membersByUnderlyingValue.TryGetValue(defaultUnderlyingValue, out List<EnumInfo<TEnum, TUnderlying>>? members))
+            if (MembersByUnderlyingValue.TryGetValue(defaultUnderlyingValue, out List<EnumInfo<TEnum, TUnderlying>>? members))
             {
                 members.ForEach(member => member.IsDefaultValue = true);
 
@@ -98,16 +100,16 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         {
             return
                 HasFlagsAttribute
-                    ? flagCalculator.Construct(
-                        bits.Where(bit => comparer.Compare(bit, default) > 0)
+                    ? FlagCalculator.Construct(
+                        Bits.Where(bit => Comparer.Compare(bit, default) > 0)
                             .ToArray()
                     )
-                    : memberByUnderlyingValue.Keys.Max();
+                    : MemberByUnderlyingValue.Keys.Max();
         }
 
         private static TUnderlying InitializeMinValue()
         {
-            return memberByUnderlyingValue.Keys.Min();
+            return MemberByUnderlyingValue.Keys.Min();
         }
     }
 }

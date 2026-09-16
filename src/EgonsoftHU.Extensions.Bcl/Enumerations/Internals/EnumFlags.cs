@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using EgonsoftHU.Extensions.Bcl.Enumerations.Internals.Flags;
-using EgonsoftHU.Extensions.Bcl.Exceptions;
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
 {
@@ -19,7 +19,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
     {
         private const double PowerBase = 2D;
 
-        private static readonly ReadOnlyDictionary<Type, Type> flagsByUnderlyingType =
+        private static readonly ReadOnlyDictionary<Type, Type> FlagsByUnderlyingType =
             new(
                 new Dictionary<Type, Type>()
                 {
@@ -46,7 +46,11 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
         {
             if (value <= 0)
             {
+#if LANGVERSION12_0_OR_GREATER
+                return [value];
+#else
                 return value.AsSingleElementSequence();
+#endif
             }
 
             double remainder = value;
@@ -75,12 +79,16 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
         {
             double log = Math.Log(value, PowerBase);
 
-            return log == Math.Floor(log);
+#if NET8_0_OR_GREATER
+            return Double.IsInteger(log);
+#else
+            return log == Math.Truncate(log);
+#endif
         }
 
         private static IEnumFlags<TUnderlying> CreateInstance()
         {
-            if (!flagsByUnderlyingType.TryGetValue(typeof(TUnderlying), out Type? flagsType))
+            if (!FlagsByUnderlyingType.TryGetValue(typeof(TUnderlying), out Type? flagsType))
             {
                 throw NotSupportedExceptions.NotSupportedEnumUnderlyingType<TUnderlying>();
             }

@@ -4,7 +4,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+#if NET8_0_OR_GREATER
+#else
 using System.Linq;
+#endif
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
 {
@@ -15,7 +18,11 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
             return
                 HasFlagsAttribute && flags.Count > 0
                     ? new Enumerator(flags)
+#if NET8_0_OR_GREATER
+                    : new Enumerator(new([this]));
+#else
                     : new Enumerator(this.AsSingleElementSequence().ToList().AsReadOnly());
+#endif
         }
 
         private sealed class Enumerator : IEnumerator<EnumInfo<TEnum, TUnderlying>>, IEnumerator

@@ -7,12 +7,12 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
 {
     internal interface IEnumValueConverter<TEnum, TUnderlying>
         where TEnum : struct, Enum
-        where TUnderlying : struct, IComparable<TUnderlying>
+        where TUnderlying : struct, IConvertible, IComparable<TUnderlying>
     {
-        TUnderlying ToUnderlyingType(object value);
+        TEnum ToEnumType(TUnderlying underlyingValue);
 
         ulong ToUInt64(TUnderlying underlyingValue);
 
-        TEnum ToEnumType(ref TUnderlying underlyingValue);
+        TUnderlying ToUnderlyingType(TEnum value);
     }
 }

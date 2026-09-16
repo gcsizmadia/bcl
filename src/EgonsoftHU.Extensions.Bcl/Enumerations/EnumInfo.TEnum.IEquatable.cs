@@ -51,10 +51,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         }
 
         /// <inheritdoc/>
-        public bool Equals([NotNullWhen(true)] EnumInfo<TEnum>? other)
-        {
-            return Equals((object?)other);
-        }
+        public abstract bool Equals([NotNullWhen(true)] EnumInfo<TEnum>? other);
 
         /// <inheritdoc/>
         public abstract override bool Equals([NotNullWhen(true)] object? obj);

@@ -6,6 +6,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+#if NET9_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
 {
@@ -33,6 +36,13 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
         /// Gets the <see cref="EnumMemberAttribute"/> that is applied to the current enum member.
         /// </summary>
         EnumMemberAttribute? EnumMember { get; }
+
+#if NET9_0_OR_GREATER
+        /// <summary>
+        /// Gets the <see cref="JsonStringEnumMemberNameAttribute"/> that is applied to the current enum member.
+        /// </summary>
+        JsonStringEnumMemberNameAttribute? JsonStringEnumMemberName { get; }
+#endif
 
         /// <summary>
         /// Gets a custom attribute of a specified <typeparamref name="TAttribute"/> type that is applied to the current enum member.

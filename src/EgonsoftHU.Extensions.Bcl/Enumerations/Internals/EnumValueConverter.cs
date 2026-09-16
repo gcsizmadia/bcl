@@ -2,62 +2,80 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
-using EgonsoftHU.Extensions.Bcl.Enumerations.Internals.Converters;
-using EgonsoftHU.Extensions.Bcl.Exceptions;
+using EgonsoftHU.Extensions.Bcl.Internals;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations.Internals
 {
-    internal abstract class EnumValueConverter<TEnum, TUnderlying> : IEnumValueConverter<TEnum, TUnderlying>
+    internal sealed class EnumValueConverter<TEnum, TUnderlying> : IEnumValueConverter<TEnum, TUnderlying>
         where TEnum : struct, Enum
-        where TUnderlying : struct, IComparable<TUnderlying>
+        where TUnderlying : struct, IConvertible, IComparable<TUnderlying>
     {
-        private static readonly Type enumType = typeof(TEnum);
+        private static readonly TypeCode[] SupportedTypeCodes =
+#if LANGVERSION12_0_OR_GREATER
+        [
+#else
+        new[] {
+#endif
+            TypeCode.SByte,
+            TypeCode.Byte,
+            TypeCode.Int16,
+            TypeCode.UInt16,
+            TypeCode.Int32,
+            TypeCode.UInt32,
+            TypeCode.Int64,
+            TypeCode.UInt64
+#if LANGVERSION12_0_OR_GREATER
+        ]
+#else
+        }
+#endif
+        ;
 
-        private static readonly Type enumUnderlyingType = typeof(TUnderlying);
-
-        private static readonly ReadOnlyDictionary<Type, Func<Type, Type>> converterFactoriesByUnderlyingType =
-            new(
-                new Dictionary<Type, Func<Type, Type>>()
-                {
-                    [typeof(sbyte)] = enumType => typeof(SByteEnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(short)] = enumType => typeof(Int16EnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(int)] = enumType => typeof(Int32EnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(long)] = enumType => typeof(Int64EnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(byte)] = enumType => typeof(ByteEnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(ushort)] = enumType => typeof(UInt16EnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(uint)] = enumType => typeof(UInt32EnumValueConverter<>).MakeGenericType(enumType),
-                    [typeof(ulong)] = enumType => typeof(UInt64EnumValueConverter<>).MakeGenericType(enumType),
-                }
-            );
+        private EnumValueConverter()
+        {
+        }
 
         internal static IEnumValueConverter<TEnum, TUnderlying> Instance { get; } = CreateInstance();
 
-        public abstract TUnderlying ToUnderlyingType(object value);
-
-        public abstract ulong ToUInt64(TUnderlying underlyingValue);
-
-        public TEnum ToEnumType(ref TUnderlying underlyingValue)
+        public TEnum ToEnumType(TUnderlying underlyingValue)
         {
-            return Unsafe.As<TUnderlying, TEnum>(ref underlyingValue);
+            TUnderlying source = underlyingValue;
+
+            return Unsafe.As<TUnderlying, TEnum>(ref source);
         }
 
-        private static IEnumValueConverter<TEnum, TUnderlying> CreateInstance()
+        public TUnderlying ToUnderlyingType(TEnum value)
         {
-            if (!converterFactoriesByUnderlyingType.TryGetValue(enumUnderlyingType, out Func<Type, Type>? factory))
+            TEnum source = value;
+
+            return Unsafe.As<TEnum, TUnderlying>(ref source);
+        }
+
+        public ulong ToUInt64(TUnderlying underlyingValue)
+        {
+            return ((IConvertible)underlyingValue).ToUInt64(null);
+        }
+
+        private static EnumValueConverter<TEnum, TUnderlying> CreateInstance()
+        {
+            Type underlyingType = typeof(TUnderlying);
+            TypeCode underlyingTypeCode = Type.GetTypeCode(underlyingType);
+
+            if (underlyingType != Enum.GetUnderlyingType(typeof(TEnum)))
+            {
+                throw InvalidOperationExceptions.CreateEnumValueConverterInstanceFailed<TEnum, TUnderlying>(
+                    typeof(EnumValueConverter<TEnum, TUnderlying>)
+                );
+            }
+
+            if (underlyingTypeCode.IsNotIn(SupportedTypeCodes))
             {
                 throw NotSupportedExceptions.NotSupportedEnumUnderlyingType<TUnderlying>();
             }
 
-            Type concreteType = factory.Invoke(enumType);
-
-            return
-                Activator.CreateInstance(concreteType) is IEnumValueConverter<TEnum, TUnderlying> converter
-                    ? converter
-                    : throw InvalidOperationExceptions.CreateEnumValueConverterInstanceFailed<TEnum, TUnderlying>(concreteType);
+            return new EnumValueConverter<TEnum, TUnderlying>();
         }
     }
 }

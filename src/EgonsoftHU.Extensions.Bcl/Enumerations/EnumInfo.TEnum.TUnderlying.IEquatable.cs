@@ -9,7 +9,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
 {
     internal partial class EnumInfo<TEnum, TUnderlying> : IEquatable<EnumInfo<TEnum, TUnderlying>>
     {
-        private static readonly EqualityComparer<TUnderlying> underlyingEqualityComparer = EqualityComparer<TUnderlying>.Default;
+        private static readonly EqualityComparer<TUnderlying> UnderlyingEqualityComparer = EqualityComparer<TUnderlying>.Default;
 
         /// <summary>
         /// Indicates whether the <paramref name="left"/> parameter is equal to the <paramref name="right"/> parameter.
@@ -53,18 +53,23 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
                 (
                     ReferenceEquals(this, other)
                     ||
-                    underlyingEqualityComparer.Equals(UnderlyingValue, other.UnderlyingValue)
+                    UnderlyingEqualityComparer.Equals(UnderlyingValue, other.UnderlyingValue)
                 );
         }
 
+        public sealed override bool Equals([NotNullWhen(true)] EnumInfo<TEnum>? other)
+        {
+            return Equals(other as EnumInfo<TEnum, TUnderlying>);
+        }
+
         /// <inheritdoc/>
-        public override bool Equals([NotNullWhen(true)] object? obj)
+        public sealed override bool Equals([NotNullWhen(true)] object? obj)
         {
             return Equals(obj as EnumInfo<TEnum, TUnderlying>);
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode()
+        public sealed override int GetHashCode()
         {
             return UnderlyingValue.GetHashCode();
         }

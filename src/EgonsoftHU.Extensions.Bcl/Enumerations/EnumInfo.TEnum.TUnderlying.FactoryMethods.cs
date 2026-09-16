@@ -24,7 +24,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
             return
                 TryFromUnderlyingValueCore(
                     value,
-                    converter.ToUnderlyingType(value),
+                    Converter.ToUnderlyingType(value),
                     throwOnFailure: true,
                     out EnumInfo<TEnum, TUnderlying>? result
                 )
@@ -60,7 +60,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
             return
                 TryFromUnderlyingValueCore(
                     value,
-                    converter.ToUnderlyingType(value),
+                    Converter.ToUnderlyingType(value),
                     throwOnFailure: false,
                     out result
                 );
