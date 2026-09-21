@@ -19,7 +19,7 @@ This code is licensed under MIT license (see LICENSE for details)
     </GenerateNuspecDependsOn>
   </PropertyGroup>
 
-  <Target Name="EgonsoftHU_SetProperties" DependsOnTargets="AddSourceRevisionToInformationalVersion" Condition="'$(SourceControlInformationFeatureSupported)' == 'true'">
+  <Target Name="EgonsoftHU_SetProperties" DependsOnTargets="AddSourceRevisionToInformationalVersion" Condition="'$(SourceControlInformationFeatureSupported)' == 'true' and '$(IncludeSourceRevisionInInformationalVersion)' == 'true'">
     <PropertyGroup>
       <RepositoryUrl Condition="'$(RepositoryUrl)' == ''">$(ScmRepositoryUrl)</RepositoryUrl>
       <RepositoryBranch Condition="'$(RepositoryBranch)' == ''">$(SourceBranchName)</RepositoryBranch>

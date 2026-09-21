@@ -10,12 +10,12 @@ This code is licensed under MIT license (see LICENSE for details)
 
   <PropertyGroup Condition="'$(IsPackable)' == 'true'">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>obj\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
     <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsPackable)' == 'true'">
-    <None Include="README.md" Pack="True" PackagePath="\" Condition="Exists('README.md')" />
+    <None Include="$(SolutionDir)README.md" Pack="True" PackagePath="\" Condition="Exists('$(SolutionDir)README.md')" />
   </ItemGroup>
 
   <PropertyGroup>

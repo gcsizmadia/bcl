@@ -79,7 +79,7 @@ This code is licensed under MIT license (see LICENSE for details)
     <!--<PackageProjectUrl></PackageProjectUrl>-->
     <!--<PackageIcon></PackageIcon>-->
     <!--<PackageIconUrl></PackageIconUrl>-->
-    <PackageReadmeFile Condition="Exists('README.md')">README.md</PackageReadmeFile>
+    <PackageReadmeFile Condition="Exists('$(SolutionDir)README.md')">README.md</PackageReadmeFile>
     <PackageTags>EgonsoftHU egonsoft.hu egonsoft</PackageTags>
     <!--<PackageReleaseNotes></PackageReleaseNotes>-->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
