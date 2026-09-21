@@ -24,19 +24,6 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
         }
 
         [Fact]
-        public void ThrowIfNull_NonNullableValueType_NonNullValue()
-        {
-            // Arrange
-            int value = 42;
-
-            // Act
-            Action sut = () => value.ThrowIfNull();
-
-            // Assert
-            sut.Should().NotThrow<ArgumentNullException>();
-        }
-
-        [Fact]
         public void ThrowIfNull_NullableValueType_NullValue()
         {
             // Arrange
@@ -115,26 +102,26 @@ namespace EgonsoftHU.Extensions.Bcl.UnitTests
         }
 
         [Fact]
-        public void ThrowIfEmptyGuid_GuidEmpty()
+        public void ThrowIfEmpty_GuidEmpty()
         {
             // Arrange
             Guid value = Guid.Empty;
 
             // Act
-            Action sut = () => value.ThrowIfEmptyGuid();
+            Action sut = () => value.ThrowIfEmpty();
 
             // Assert
             sut.Should().ThrowExactly<ArgumentException>().WithParameterName(nameof(value));
         }
 
         [Fact]
-        public void ThrowIfEmptyGuid_GuidNonEmpty()
+        public void ThrowIfEmpty_GuidNonEmpty()
         {
             // Arrange
             var value = Guid.NewGuid();
 
             // Act
-            Action sut = () => value.ThrowIfEmptyGuid();
+            Action sut = () => value.ThrowIfEmpty();
 
             // Assert
             sut.Should().NotThrow<ArgumentException>();

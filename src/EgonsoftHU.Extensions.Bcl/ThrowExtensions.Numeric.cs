@@ -5,10 +5,7 @@ using System;
 #if !NET8_0_OR_GREATER
 using System.Collections.Generic;
 #endif
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-
-using static EgonsoftHU.Extensions.Bcl.ErrorMessageConfiguration;
 
 namespace EgonsoftHU.Extensions.Bcl
 {
@@ -27,7 +24,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -43,7 +40,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -59,7 +56,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -75,7 +72,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -91,7 +88,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -107,7 +104,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -123,7 +120,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -139,7 +136,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -156,7 +153,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -173,7 +170,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -189,7 +186,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -205,7 +202,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsZero())
             {
-                ThrowZero(paramName, value);
+                ThrowHelper.ThrowZero(paramName, value);
             }
 #endif
         }
@@ -225,7 +222,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -241,7 +238,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -257,7 +254,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -273,7 +270,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -289,7 +286,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -305,7 +302,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -321,7 +318,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -337,7 +334,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -354,7 +351,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -371,7 +368,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -387,7 +384,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -403,7 +400,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegative())
             {
-                ThrowNegative(paramName, value);
+                ThrowHelper.ThrowNegative(paramName, value);
             }
 #endif
         }
@@ -423,7 +420,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -439,7 +436,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -455,7 +452,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -471,7 +468,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -487,7 +484,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -503,7 +500,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -519,7 +516,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -535,7 +532,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -552,7 +549,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -569,7 +566,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -585,7 +582,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -601,7 +598,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.IsNegativeOrZero())
             {
-                ThrowNegativeOrZero(paramName, value);
+                ThrowHelper.ThrowNegativeOrZero(paramName, value);
             }
 #endif
         }
@@ -618,7 +615,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -630,7 +627,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -642,7 +639,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -654,7 +651,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -666,7 +663,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -678,7 +675,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -690,7 +687,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -702,7 +699,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -715,7 +712,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 #endif
@@ -728,7 +725,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -740,7 +737,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -752,7 +749,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositive())
             {
-                ThrowPositive(paramName, value);
+                ThrowHelper.ThrowPositive(paramName, value);
             }
         }
 
@@ -768,7 +765,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -780,7 +777,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -792,7 +789,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -804,7 +801,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -816,7 +813,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -828,7 +825,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -840,7 +837,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -852,7 +849,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -865,7 +862,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 #endif
@@ -878,7 +875,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -890,7 +887,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -902,7 +899,7 @@ namespace EgonsoftHU.Extensions.Bcl
         {
             if (value.IsPositiveOrZero())
             {
-                ThrowPositiveOrZero(paramName, value);
+                ThrowHelper.ThrowPositiveOrZero(paramName, value);
             }
         }
 
@@ -924,7 +921,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.CompareTo(other) > 0)
             {
-                ThrowGreater(paramName, value, other);
+                ThrowHelper.ThrowGreater(paramName, value, other);
             }
 #endif
         }
@@ -947,7 +944,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.CompareTo(other) >= 0)
             {
-                ThrowGreaterEqual(paramName, value, other);
+                ThrowHelper.ThrowGreaterEqual(paramName, value, other);
             }
 #endif
         }
@@ -970,7 +967,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.CompareTo(other) < 0)
             {
-                ThrowLess(paramName, value, other);
+                ThrowHelper.ThrowLess(paramName, value, other);
             }
 #endif
         }
@@ -993,7 +990,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (value.CompareTo(other) <= 0)
             {
-                ThrowLessEqual(paramName, value, other);
+                ThrowHelper.ThrowLessEqual(paramName, value, other);
             }
 #endif
         }
@@ -1016,7 +1013,7 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (EqualityComparer<T>.Default.Equals(value, other))
             {
-                ThrowEqual(paramName, value, other);
+                ThrowHelper.ThrowEqual(paramName, value, other);
             }
 #endif
         }
@@ -1039,79 +1036,11 @@ namespace EgonsoftHU.Extensions.Bcl
 #else
             if (!EqualityComparer<T>.Default.Equals(value, other))
             {
-                ThrowNotEqual(paramName, value, other);
+                ThrowHelper.ThrowNotEqual(paramName, value, other);
             }
 #endif
         }
 
         #endregion
-
-        [DoesNotReturn]
-        private static void ThrowPositive<T>(string? paramName, T value)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeNonPositive(paramName, value));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowPositiveOrZero<T>(string? paramName, T value)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeNonPositiveNonZero(paramName, value));
-        }
-
-#if !NET8_0_OR_GREATER
-        [DoesNotReturn]
-        private static void ThrowZero<T>(string? paramName, T value)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeNonZero(paramName, value));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowNegative<T>(string? paramName, T value)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeNonNegative(paramName, value));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowNegativeOrZero<T>(string? paramName, T value)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeNonNegativeNonZero(paramName, value));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowGreater<T>(string? paramName, T value, T other)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeLessOrEqual(paramName, value, other));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowGreaterEqual<T>(string? paramName, T value, T other)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeLess(paramName, value, other));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowLess<T>(string? paramName, T value, T other)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeGreaterOrEqual(paramName, value, other));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowLessEqual<T>(string? paramName, T value, T other)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeGreater(paramName, value, other));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowEqual<T>(string? paramName, T value, T other)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeNotEqual(paramName, value, other));
-        }
-
-        [DoesNotReturn]
-        private static void ThrowNotEqual<T>(string? paramName, T value, T other)
-        {
-            throw new ArgumentOutOfRangeException(paramName, value, ArgumentOutOfRange_MustBeEqual(paramName, value, other));
-        }
-#endif
     }
 }
