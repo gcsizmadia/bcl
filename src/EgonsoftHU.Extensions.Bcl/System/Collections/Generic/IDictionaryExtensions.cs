@@ -74,7 +74,6 @@ namespace EgonsoftHU.Extensions.Bcl
             where TKey : notnull
         {
             dictionary.ThrowIfNull();
-            key.ThrowIfNull();
 
             return
                 dictionary.TryGetValue(key, out TValue? value)
@@ -91,11 +90,11 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <param name="key">The key whose value to get.</param>
         /// <param name="defaultValue">The value to return if <paramref name="key"/> is not found.</param>
         /// <returns>The value associated with the specified key, if the key is found; otherwise, <paramref name="defaultValue"/>.</returns>
+        /// <exception cref="ArgumentNullException">Either <paramref name="dictionary"/> or <paramref name="key"/> is <see langword="null"/>.</exception>
         public static TValue DefaultIfKeyNotFound<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
             where TKey : notnull
         {
             dictionary.ThrowIfNull();
-            key.ThrowIfNull();
 
             return
                 dictionary.TryGetValue(key, out TValue? value)
