@@ -2,6 +2,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EgonsoftHU.Extensions.Bcl.Enumerations
 {
@@ -18,6 +19,7 @@ namespace EgonsoftHU.Extensions.Bcl.Enumerations
     /// </para>
     /// </summary>
     [Flags]
+    [SuppressMessage(SonarQube.Category, SonarQube.S2346)]
     public enum IntervalBoundsOptions
     {
         /// <summary>

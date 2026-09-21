@@ -13,6 +13,11 @@ namespace System.Diagnostics.CodeAnalysis
         internal const string S1244 = nameof(S1244);
 
         /// <summary>
+        /// Flags enumerations zero-value members should be named "None"
+        /// </summary>
+        internal const string S2346 = nameof(S2346);
+
+        /// <summary>
         /// Static fields should not be used in generic types
         /// </summary>
         internal const string S2743 = nameof(S2743);
