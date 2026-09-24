@@ -27,6 +27,9 @@ You can find the release notes [here](https://github.com/gcsizmadia/bcl/releases
 - Predefined (`const` / `readonly`) values
 - Helper types
 
+---
+
+
 ### Extension methods for conveniently throwing `ArgumentNullException` or `ArgumentException`
 
 #### Type: `T`
@@ -62,6 +65,9 @@ void DoSomething(SomeClass obj, string value, Guid? nullableGuid, Guid guid)
     guid.ThrowIfEmpty();
 }
 ```
+
+---
+
 
 ### Extension methods for throwing `ArgumentOutOfRangeException`
 
@@ -108,10 +114,6 @@ void DoSomething(int value)
 When throwing the `ArgumentOutOfRangeException` manually, this library uses exception messages identical to the English-language messages in .NET 8, if present.  
 These messages can be customized or localized as follows, if necessary.
 
-*Applies to targets:*
-- all extension methods in this section: `netstandard2.0`, `netstandard2.1`, `net472`
-- `ThrowIfPositive()` and `ThrowIfPositiveOrZero()` extension methods: `net8.0`, `net9.0`, `net10.0`
-
 ```csharp
 using EgonsoftHU.Extensions.Bcl;
 
@@ -129,6 +131,24 @@ ErrorMessageConfiguration.Current.ConfigureErrorMessage(
     errorMessageResourceName: "YourCustomResourceName"
 );
 ```
+
+*Applies to:*
+
+|Extension method|Targets that throw custom exception|
+|-|-|
+|`ThrowIfEqualTo()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfNotEqualTo()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfLessThan()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfLessThanOrEqualTo()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfGreaterThan()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfGreaterThanOrEqualTo()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfZero()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfNegative()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfNegativeOrZero()`|`netstandard2.0`, `netstandard2.1`, `net472`|
+|`ThrowIfPositive()`|all targets|
+|`ThrowIfPositiveOrZero()`|all targets|
+
+---
 
 ### Extension methods for specific types
 
@@ -241,6 +261,9 @@ ErrorMessageConfiguration.Current.ConfigureErrorMessage(
 - `IsPositiveOrZero()`
 - `IsInRange()`
 
+---
+
+
 ### Extension methods with generic type parameters
 
 #### IEnumerable-related
@@ -309,6 +332,9 @@ ErrorMessageConfiguration.Current.ConfigureErrorMessage(
 - `GetValueOrDefault()`
 - `GetValue()`
 
+---
+
+
 ### Predefined (`const` / `readonly`) values
 
 Make code easier to read by avoiding magic strings using frequently used values as constants.
@@ -338,6 +364,8 @@ string endpoint = $"{apiRoot}{entitySetName}{entityId.ToString(GuidFormats.Paren
 
 // endpoint = "/api/data/v9.0/incidents(eee1df0f-4231-4dd2-8714-64e56149ad62)"
 ```
+
+---
 
 ### Helper types
 
