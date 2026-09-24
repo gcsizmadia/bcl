@@ -13,6 +13,7 @@
   <Folder Name="/00_Documents/">
     <File Path="LICENSE" />
     <File Path="README.md" />
+    <File Path="RELEASES.md" />
   </Folder>
   <Folder Name="/01_Source/">
     <Project Path="src/EgonsoftHU.Extensions.Bcl/EgonsoftHU.Extensions.Bcl.csproj" />
