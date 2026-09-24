@@ -21,7 +21,7 @@
     <!--<PackageIcon></PackageIcon>-->
     <!--<PackageIconUrl></PackageIconUrl>-->
     <!--<PackageReadmeFile></PackageReadmeFile>-->
-    <PackageTags>$(PackageTags) extensions extension bcl object datetimeoffset string type assembly memberinfo parameterinfo stream numeric ienumerable icollection idictionary</PackageTags>
+    <PackageTags>$(PackageTags) extensions extension bcl object enum dateonly datetime datetimeoffset exception string type ienumerable icollection idictionary ilist stream numeric assembly memberinfo parameterinfo encoding</PackageTags>
     <PackageReleaseNotes>Please visit https://github.com/gcsizmadia/bcl/releases to view the release notes.</PackageReleaseNotes>
     <!--<RepositoryUrl></RepositoryUrl>-->
     <!--<RepositoryType></RepositoryType>-->
