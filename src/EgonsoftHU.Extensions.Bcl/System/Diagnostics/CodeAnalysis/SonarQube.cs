@@ -8,6 +8,11 @@ namespace System.Diagnostics.CodeAnalysis
         internal const string Category = nameof(SonarQube);
 
         /// <summary>
+        /// Deprecated code should be removed
+        /// </summary>
+        internal const string S1133 = nameof(S1133);
+
+        /// <summary>
         /// Floating point numbers should not be tested for equality
         /// </summary>
         internal const string S1244 = nameof(S1244);

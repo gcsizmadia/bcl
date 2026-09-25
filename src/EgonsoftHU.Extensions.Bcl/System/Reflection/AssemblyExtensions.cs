@@ -59,7 +59,8 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <br/>- this method always returns <see cref="String.Empty"/>.
         /// </remarks>
 #if NET || NETCOREAPP
-        [Obsolete("This method uses Assembly.CodeBase property that is only included for .NET Framework compatibility. Use AssemblyExtensions.SafeGetLocation(Assembly) extension method instead.")]
+        [SuppressMessage(SonarQube.Category, SonarQube.S1133)]
+        [Obsolete("This method uses Assembly.CodeBase property that is only included for .NET Framework compatibility. Use AssemblyExtensions.SafeGetLocation(Assembly) extension method instead.", error: true)]
 #endif
         public static string SafeGetCodeBase(this Assembly? assembly)
         {
