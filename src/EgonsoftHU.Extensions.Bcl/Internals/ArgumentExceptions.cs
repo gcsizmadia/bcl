@@ -25,6 +25,8 @@ namespace EgonsoftHU.Extensions.Bcl.Internals
 
             internal const string CollectionIsReadOnly = "The collection is read-only.";
 
+            internal const string CollectionContainsNull = "Cannot add null to a collection of non-nullable value types.";
+
             internal const string EnumMemberNotFound = "Enum member not found.";
 
             internal const string PropertyNotFound = "No property with the specified name is declared in the current type.";
@@ -67,6 +69,13 @@ namespace EgonsoftHU.Extensions.Bcl.Internals
         internal static ArgumentException CollectionIsReadOnly(string paramName)
         {
             var ex = new ArgumentException(MessageTemplates.CollectionIsReadOnly, paramName);
+
+            return ex;
+        }
+
+        internal static ArgumentException CollectionContainsNull(string paramName)
+        {
+            var ex = new ArgumentException(MessageTemplates.CollectionContainsNull, paramName);
 
             return ex;
         }
