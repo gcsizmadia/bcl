@@ -48,7 +48,10 @@ namespace EgonsoftHU.Extensions.Bcl
             sourceObject.ThrowIfNull();
             valueSelector.ThrowIfNull();
 
-            return sourceObject.GetValueOrDefault(valueSelector, String.Empty)!;
+            return
+                sourceObject.GetValueOrDefault(valueSelector, String.Empty) is string result
+                    ? result
+                    : String.Empty;
         }
 
         /// <summary>
@@ -69,17 +72,17 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="sourceObject"/> or <paramref name="valueSelector"/> is <see langword="null"/>.
         /// </exception>
-        public static TResult? GetValueOrDefault<TSource, TResult>(
+        public static TResult GetValueOrDefault<TSource, TResult>(
             this TSource sourceObject,
-            Func<TSource, TResult?> valueSelector,
-            TResult? defaultValue
+            Func<TSource, TResult> valueSelector,
+            TResult defaultValue
         )
             where TSource : class?
         {
             sourceObject.ThrowIfNull();
             valueSelector.ThrowIfNull();
 
-            TResult? value = valueSelector.Invoke(sourceObject);
+            TResult value = valueSelector.Invoke(sourceObject);
 
             return value.IsDefaultValue() ? defaultValue : value;
         }
@@ -95,7 +98,7 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <exception cref="ArgumentNullException">
         /// Either <paramref name="sourceObject"/> or <paramref name="valueSelector"/> is <see langword="null"/>.
         /// </exception>
-        public static TResult? GetValue<TSource, TResult>(this TSource sourceObject, Func<TSource, TResult?> valueSelector)
+        public static TResult GetValue<TSource, TResult>(this TSource sourceObject, Func<TSource, TResult> valueSelector)
             where TSource : class?
         {
             sourceObject.ThrowIfNull();

@@ -24,12 +24,14 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <exception cref="ArgumentException">
         /// No property is declared in <typeparamref name="TSource"/> type with the specified <paramref name="propertyName"/>.
         /// </exception>
-        public static object? GetPropertyValue<TSource>(this TSource? sourceObject, string propertyName)
+        public static object? GetPropertyValue<TSource>(this TSource sourceObject, string propertyName)
+            where TSource : class?
         {
+            sourceObject.ThrowIfNull();
             propertyName.ThrowIfNullOrWhiteSpace();
 
             propertyName.ThrowIfPropertyNotFound(
-                sourceObject?.GetType() ?? typeof(TSource),
+                sourceObject.GetType(),
                 sourceObject.TryGetPropertyInfo(propertyName, out PropertyInfo? propertyInfo)
             );
 
@@ -47,8 +49,10 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <exception cref="ArgumentNullException">
         /// <paramref name="propertyName"/> is <see langword="null"/>, <see cref="String.Empty"/> or consists only of white-space characters.
         /// </exception>
-        public static bool TryGetPropertyValue<TSource>(this TSource? sourceObject, string propertyName, out object? value)
+        public static bool TryGetPropertyValue<TSource>(this TSource sourceObject, string propertyName, out object? value)
+            where TSource : class?
         {
+            sourceObject.ThrowIfNull();
             propertyName.ThrowIfNullOrWhiteSpace();
 
             value =
@@ -72,12 +76,14 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <exception cref="ArgumentException">
         /// No property is declared in <typeparamref name="TSource"/> type with the specified <paramref name="propertyName"/>.
         /// </exception>
-        public static void SetPropertyValue<TSource>(this TSource? sourceObject, string propertyName, object? value)
+        public static void SetPropertyValue<TSource>(this TSource sourceObject, string propertyName, object? value)
+            where TSource : class?
         {
+            sourceObject.ThrowIfNull();
             propertyName.ThrowIfNullOrWhiteSpace();
 
             propertyName.ThrowIfPropertyNotFound(
-                sourceObject?.GetType() ?? typeof(TSource),
+                sourceObject.GetType(),
                 sourceObject.TryGetPropertyInfo(propertyName, out PropertyInfo? propertyInfo)
             );
 
@@ -95,9 +101,10 @@ namespace EgonsoftHU.Extensions.Bcl
         /// <exception cref="ArgumentNullException">
         /// <paramref name="propertyName"/> is <see langword="null"/>, <see cref="String.Empty"/> or consists only of white-space characters.
         /// </exception>
-        public static bool TrySetPropertyValue<TSource>(this TSource? sourceObject, string propertyName, object? value)
+        public static bool TrySetPropertyValue<TSource>(this TSource sourceObject, string propertyName, object? value)
             where TSource : class?
         {
+            sourceObject.ThrowIfNull();
             propertyName.ThrowIfNullOrWhiteSpace();
 
             if (sourceObject.TryGetPropertyInfo(propertyName, out PropertyInfo? propertyInfo))
@@ -109,11 +116,17 @@ namespace EgonsoftHU.Extensions.Bcl
             return false;
         }
 
-        private static bool TryGetPropertyInfo<TSource>(this TSource? source, string propertyName, [NotNullWhen(true)] out PropertyInfo? propertyInfo)
+        private static bool TryGetPropertyInfo<TSource>(
+            this TSource sourceObject,
+            string propertyName,
+            [NotNullWhen(true)] out PropertyInfo? propertyInfo
+        )
+            where TSource : class?
         {
+            sourceObject.ThrowIfNull();
             propertyName.ThrowIfNullOrWhiteSpace();
 
-            Type sourceType = source?.GetType() ?? typeof(TSource);
+            Type sourceType = sourceObject.GetType();
 
             propertyInfo = sourceType.GetTypeInfo().GetRuntimeProperty(propertyName);
 
@@ -122,8 +135,6 @@ namespace EgonsoftHU.Extensions.Bcl
 
         private static void ThrowIfPropertyNotFound(this string propertyName, Type sourceType, [DoesNotReturnIf(false)] bool propertyFound)
         {
-            propertyName.ThrowIfNullOrWhiteSpace();
-
             if (!propertyFound)
             {
                 throw ArgumentExceptions.PropertyNotFound(sourceType, propertyName);
