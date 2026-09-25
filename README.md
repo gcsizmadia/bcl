@@ -20,7 +20,7 @@ You can find the release notes [here](https://github.com/gcsizmadia/bcl/releases
 
 |Version|Release Date|Latest Patch Version|End of Support|Targets|
 |-|-|-|-|-|
-|10.0|2026-09-24|10.0.0|2028-11-14|`net8.0`, `net9.0`, `net10.0`<br/>`net472`<br/>`netstandard2.0`, `netstandard2.1`|
+|10.0|2026-09-25|10.0.0|2028-11-14|`net8.0`, `net9.0`, `net10.0`<br/>`net472`<br/>`netstandard2.0`, `netstandard2.1`|
 
 ## Summary
 
