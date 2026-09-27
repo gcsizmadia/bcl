@@ -55,8 +55,9 @@ This code is licensed under MIT license (see LICENSE for details)
     <IsCompatibleWithNetStandard20>$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'netstandard2.0'))</IsCompatibleWithNetStandard20>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(IsCompatibleWithNetFramework47)' != 'true' And $(IsCompatibleWithNetStandard20) != 'true' And '$(ExcludeRestorePackageImports)' == 'true'">
-    <SystemValueTuplePackageRequired>true</SystemValueTuplePackageRequired>
+  <PropertyGroup Condition="'$(IsCompatibleWithNetFramework47)' != 'true' Or $(IsCompatibleWithNetStandard20) != 'true'">
+    <SystemValueTuplePackageRequired>Update</SystemValueTuplePackageRequired>
+    <SystemValueTuplePackageRequired Condition="'$(ExcludeRestorePackageImports)' == 'true'">Include</SystemValueTuplePackageRequired>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(LangVersion)' == '9.0'">
@@ -64,7 +65,11 @@ This code is licensed under MIT license (see LICENSE for details)
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.ValueTuple" Version="4.6.2" Condition="'$(SystemValueTuplePackageRequired)' == 'true'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.6.2" Condition="'$(SystemValueTuplePackageRequired)' == 'Include'" />
+    <PackageReference Update="System.ValueTuple" Version="4.6.2" Condition="'$(SystemValueTuplePackageRequired)' == 'Update'" />
   </ItemGroup>
 
   <PropertyGroup>
