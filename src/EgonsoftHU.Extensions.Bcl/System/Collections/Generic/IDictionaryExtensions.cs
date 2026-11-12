@@ -56,7 +56,11 @@ namespace EgonsoftHU.Extensions.Bcl
             return dictionary switch
             {
                 SortedDictionary<TKey, TValue> readOnly => readOnly,
-                _ => new SortedDictionary<TKey, TValue>(dictionary)
+#if LANGVERSION15_0_OR_GREATER
+                _ => [with(dictionary)]
+#else
+                _ => new(dictionary)
+#endif
             };
         }
 
